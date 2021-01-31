@@ -11,13 +11,12 @@ var rootCmd = &cobra.Command{
 	Short: "A cli tool for life.",
 	Long:
 `
-   ____ ___  ___  _  ____ 
-  | |_ | | \| | \| || |_  
-  |_|__|_|_/|_|_/|_||_|__
+            __     __  __        
+ .-----..--|  |.--|  ||__|.-----.
+ |  -__||  _  ||  _  ||  ||  -__|
+ |_____||_____||_____||__||_____|
 
-  A man's best friend.
-
-  For, and by, the Dark Society.
+ A man's best friend.
 `,
 }
 
