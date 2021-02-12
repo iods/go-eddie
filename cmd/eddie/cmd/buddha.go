@@ -3,12 +3,11 @@ package cmd
 import (
 	"encoding/json"
 	"fmt"
+	m "github.com/iods/go-eddie/internal/model"
+	"github.com/spf13/cobra"
 	"io/ioutil"
 	"log"
 	"os"
-
-	m "github.com/iods/go-eddie/internal/model"
-	"github.com/spf13/cobra"
 )
 
 var buddhaCmd = &cobra.Command{
@@ -29,11 +28,19 @@ returns some numbers you may want to play the lottery with!
 	},
 }
 
-// count how many fortunes exist
+// getCount Returns how many objects (fortunes) exist in the struct.
+func getCount() int {
+	f := fortune()
+	return len(f.Fortunes)
+}
 
-// have eddie take 
+// have eddie take the returned integer and use in range
 
+// use range function to calculate number between 1 and what eddie returns as count of fortunes
 
+// use rand to generate random number from that returned integer
+
+// set variable for mapped dataset to pull in returned integer and print message
 
 
 
