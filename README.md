@@ -3,30 +3,20 @@ Eddie CLI
 
 A CLI for tracking routines and behaviors, with a UI for rendering your results in real time.
 
+
 Description
 -----------
 
 I am in the command line a lot. I like data. I love Go right now. It feels right.
 
-Actors are just task runners.
-Reports are generated in context, by their actors, keeping things isolated (recursion)
-Tracking is a task, i.e. data collection, by an actor
 
-
-```
-eddie ask [behavior, symptom] -{d,w,m}
-
-eddie ask buddha // returns a motivational message from Buddha, -lucky flag includes with lucky numbers
-```
-
-
-```
+```sh
             __     __  __
  .-----..--|  |.--|  ||__|.-----.
  |  -__||  _  ||  _  ||  ||  -__|
  |_____||_____||_____||__||_____|
 
- A man's best friend.
+ Like velcro.
 
 Usage:
   eddie [command]
@@ -41,8 +31,15 @@ Flags:
   -h, --help   help for eddie
 
 Use "eddie [command] --help" for more information about a command.
-
 ```
+
+```sh
+$ eddie ask [behavior, symptom] -{d,w,m}
+
+$ eddie ask buddha // returns a motivational message from Buddha
+```
+
+
 
 
 Copyright
