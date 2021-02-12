@@ -23,12 +23,8 @@ on some predefined filters, and if you are feeling lucky, eddie
 returns some numbers you may want to play the lottery with!
 `,
 	Run: func(cmd *cobra.Command, args []string) {
-		test := fortune()
-		fmt.Println(test.Fortunes[0].Id)
-		fmt.Println(test.Fortunes[0].Text)
-		fmt.Println(test.Fortunes[0].Numbers)
-		values := returnRandom(104)
-		fmt.Println(values)
+		m := getMessage()
+		fmt.Println(m)
 	},
 }
 
@@ -39,24 +35,22 @@ func getCount() int {
 }
 
 // have eddie take the returned integer and use in range
-
-// use range function to calculate number between 1 and what eddie returns as count of fortunes
+func getMessage() string {
+	v := getCount()
+	r := getRandom(v)
+	f := fortune().Fortunes[r].Text
+	return f
+}
 
 // returnRandom Returns a random number between one and the function's argument.
-func returnRandom(value int) int {
+func getRandom(value int) int {
 	s1 := rand.NewSource(time.Now().UnixNano())
 	r1 := rand.New(s1)
 	random := r1.Intn(value)
 	return random
 }
 
-
-// set variable for mapped dataset to pull in returned integer and print message
-
-
-
-
-
+// fortune Reads the json file and returns a dataset of fortunes.
 func fortune() m.Fortunes {
 	var fortunes m.Fortunes
 	filepath := "../../data/fortunes.json"
@@ -76,7 +70,7 @@ func fortune() m.Fortunes {
 	return fortunes
 }
 
-// init Main function for Cobra to build the command.
+// init Main function for Cobra to build the buddha command.
 func init() {
 	askCmd.AddCommand(buddhaCmd)
 }
