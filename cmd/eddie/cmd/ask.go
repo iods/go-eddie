@@ -2,11 +2,12 @@ package cmd
 
 import (
 	"fmt"
+
 	"github.com/spf13/cobra"
 )
 
 var askCmd = &cobra.Command{
-	Use: "ask [reminder]",
+	Use: "ask [actor]",
 	Short: "Reminders for tracking activity",
 	Long: `
 Eddie will set you a reminder for compiling this information.
