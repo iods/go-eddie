@@ -3,13 +3,14 @@ package cmd
 import (
 	"encoding/json"
 	"fmt"
-	m "github.com/iods/go-eddie/internal/model"
-	"github.com/spf13/cobra"
 	"io/ioutil"
 	"log"
 	"math/rand"
 	"os"
 	"time"
+
+	m "github.com/iods/go-eddie/internal/model"
+	"github.com/spf13/cobra"
 )
 
 var buddhaCmd = &cobra.Command{
@@ -24,7 +25,12 @@ returns some numbers you may want to play the lottery with!
 `,
 	Run: func(cmd *cobra.Command, args []string) {
 		m := getMessage()
-		fmt.Println(m)
+		flag, _ := cmd.Flags().GetBool("lucky")
+		if flag {
+			fmt.Printf("%s %v\n", m.Text, m.Numbers)
+		} else {
+			fmt.Println(m.Text)
+		}
 	},
 }
 
@@ -34,11 +40,11 @@ func getCount() int {
 	return len(f.Fortunes)
 }
 
-// have eddie take the returned integer and use in range
-func getMessage() string {
+// getMessage Returns the string of a random fortune object.
+func getMessage() m.Fortune {
 	v := getCount()
 	r := getRandom(v)
-	f := fortune().Fortunes[r].Text
+	f := fortune().Fortunes[r]
 	return f
 }
 
@@ -73,4 +79,5 @@ func fortune() m.Fortunes {
 // init Main function for Cobra to build the buddha command.
 func init() {
 	askCmd.AddCommand(buddhaCmd)
+	buddhaCmd.Flags().BoolP("lucky", "l", false, "Have eddie include some lucky numbers with your message.")
 }
