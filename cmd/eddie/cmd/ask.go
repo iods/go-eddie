@@ -7,7 +7,7 @@ import (
 )
 
 var askCmd = &cobra.Command{
-	Use: "ask [reminder]",
+	Use: "ask [actor]",
 	Short: "Reminders for tracking activity",
 	Long: `
 Eddie will set you a reminder for compiling this information.
