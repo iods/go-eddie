@@ -7,7 +7,9 @@ import (
 	"github.com/spf13/cobra"
 	"io/ioutil"
 	"log"
+	"math/rand"
 	"os"
+	"time"
 )
 
 var buddhaCmd = &cobra.Command{
@@ -25,6 +27,8 @@ returns some numbers you may want to play the lottery with!
 		fmt.Println(test.Fortunes[0].Id)
 		fmt.Println(test.Fortunes[0].Text)
 		fmt.Println(test.Fortunes[0].Numbers)
+		values := returnRandom(104)
+		fmt.Println(values)
 	},
 }
 
@@ -38,7 +42,14 @@ func getCount() int {
 
 // use range function to calculate number between 1 and what eddie returns as count of fortunes
 
-// use rand to generate random number from that returned integer
+// returnRandom Returns a random number between one and the function's argument.
+func returnRandom(value int) int {
+	s1 := rand.NewSource(time.Now().UnixNano())
+	r1 := rand.New(s1)
+	random := r1.Intn(value)
+	return random
+}
+
 
 // set variable for mapped dataset to pull in returned integer and print message
 
