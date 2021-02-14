@@ -1,47 +1,18 @@
+package cmd
 /*
-
- eddie track sleep
-  			 weight
-   			 seizure
-			 symptom
-			 mood
-
- eddie track sleep \
-	--start="0120" \
-	--duration="9" \
-	--quality="8" \
-	--tags="one,two,three,four,five" \
-	--location="couch" \
-	--important
-
- eddie track weight 100
-
- eddie track seizure \
-	--start="1020" \
-	--tags="one,two,three,four,five" \
-	--location="strip club" \
-	--important
-
+@TODO add symptom tracking (subcommand)
  eddie track symptom [allergies] \
 	--tags="one,two,three,four" \
 	--severity="3" \
 	--important
-
- eddie track mood \
-	--quality="7" \
-	--tags="one,two,three,four,five" \
-	--important
-
 */
-
-package cmd
-
 import (
 	"fmt"
-	"strings"
 	"time"
 
-	tm "github.com/iods/go-eddie/internal/helpers/time"
+	"strings"
+
+	helper "github.com/iods/go-eddie/internal/helpers/time"
 	"github.com/spf13/cobra"
 )
 
@@ -57,29 +28,92 @@ your health. so here are some ways you can use him to the fullest:
   2. eddie sniff [activity] -{emoji, tags, time, duration, stress, quality, location, severity, important}
 `,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println()
-		fmt.Println("eddie is tracking:", strings.Join(args, " "))
-
+		fmt.Println("eddie is tracking your", strings.Join(args, " "))
 		t, _ := cmd.Flags().GetString("time")
-		now := tm.Create(t)
-
 		c, _ := cmd.Flags().GetInt("duration")
-		then := now.Add(time.Duration(-c) * time.Hour)
+		q, _ := cmd.Flags().GetInt("quality")
+		tags, _ := cmd.Flags().GetStringSlice("tags")
+		p, _ := cmd.Flags().GetInt("total")
+		l, _ := cmd.Flags().GetString("location")
+
+		switch args[0] {
+		case "sleep":
+			sleep(t, c, q, tags, l, false)
+		case "weight":
+			weight(p, false)
+		case "mood":
+			mood(q, tags, false)
+		case "seizure":
+			seizure(t, tags, l, false)
+		}
 
 		i, _ := cmd.Flags().GetBool("important")
 		if i != false {
-			fmt.Println("This is important!!")
+			important()
 		}
-		fmt.Println(then)
 	},
+}
+
+func sleep(t string, d int, q int, tag []string, l string, f bool) {
+	n := helper.UpdateTime(t)
+	ts := n.Add(time.Duration(-d) * time.Hour)
+	fmt.Println("You fell asleep at:", ts)
+	fmt.Println("You woke up at:", n)
+	fmt.Println("You slept for a total of", d, "hours")
+	fmt.Println("You rated your sleep at a", q)
+	fmt.Println("You slept on the", l)
+	fmt.Println("You included the following tags:")
+	for i := 0; i < len(tag); i++ {
+		fmt.Println(tag[i])
+	}
+	if f != false {
+		important()
+	}
+}
+
+func weight(v int, f bool) {
+	fmt.Println("You recorded your weight as:", v, "lbs")
+	if f != false {
+		important()
+	}
+}
+
+func mood(q int, tag []string, f bool) {
+	fmt.Println("You rated your mood at a", q)
+	for i := 0; i < len(tag); i++ {
+		fmt.Println(tag[i])
+	}
+	if f != false {
+		important()
+	}
+}
+
+func seizure(t string, tag []string, loc string, f bool) {
+	n := helper.UpdateTime(t)
+	fmt.Println(n)
+	for i := 0; i < len(tag); i++ {
+		fmt.Println(tag[i])
+	}
+	fmt.Println("You reported a seizure at the", loc)
+	if f != false {
+		important()
+	}
+}
+
+// important Tags records that are of importance in one way or another.
+func important() {
+	// --important, -i flag (not sure yet)
+	fmt.Println("You rated this one as important.")
 }
 
 func init() {
 	rootCmd.AddCommand(trackCmd)
 
-	// time flag (start,end,etc)
-	trackCmd.Flags().StringP("time", "t", "10:00", "The time the event or activity started.")
 	trackCmd.Flags().IntP("duration", "d", 0, "The time the event or activity lasted.")
 	trackCmd.Flags().BoolP("important", "i", false, "If a record should be tagged important or not.")
-
+	trackCmd.Flags().StringP("location", "l", "none", "Location of activity or event.")
+	trackCmd.Flags().IntP("quality", "q", 0, "The quality of the time spent on the activity or event.")
+	trackCmd.Flags().Int("total", 0, "The total amount of an input for an activity or event.")
+	trackCmd.Flags().StringSlice("tags", []string{}, "Tags to include about the activity or event.")
+	trackCmd.Flags().StringP("time", "t", "23:00", "The time the event or activity started.")
 }
