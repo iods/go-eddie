@@ -1,0 +1,146 @@
+{
+  "records": {
+    "record": [
+      {
+        "id": "1",
+        "date": "2021-02-12",
+        "details": [
+          {
+            "type": "sleep",
+            "time": "time",
+            "duration": "8",
+            "quality": "9",
+            "tags": [
+              "one",
+              "two",
+              "three",
+              "four",
+              "five"
+            ]
+          },
+          {
+            "type": "mood",
+            "quality": "10",
+            "tags": [
+              "one",
+              "two",
+              "three",
+              "four",
+              "five"
+            ]
+          }
+        ],
+        "important": true
+      },
+      {
+        "id": "2",
+        "date": "2021-02-13",
+        "details": [
+          {
+            "type": "sleep",
+            "time": "time",
+            "duration": "8",
+            "quality": "9",
+            "tags": [
+              "one",
+              "two",
+              "three",
+              "four",
+              "five"
+            ]
+          },
+          {
+            "type": "seizure",
+            "time": "time",
+            "tags": [
+              "one",
+              "two",
+              "three",
+              "four",
+              "five"
+            ],
+            "location": "strip club"
+          },
+          {
+            "type": "mood",
+            "quality": "10",
+            "tags": [
+              "one",
+              "two",
+              "three",
+              "four",
+              "five"
+            ]
+          }
+        ],
+        "important": true
+      },
+      {
+        "id": "3",
+        "date": "2021-02-14",
+        "details": [
+          {
+            "type": "sleep",
+            "time": "time",
+            "duration": "8",
+            "quality": "9",
+            "tags": [
+              "one",
+              "two",
+              "three",
+              "four",
+              "five"
+            ]
+          },
+          {
+            "type": "weight",
+            "total": "290"
+          },
+          {
+            "type": "mood",
+            "quality": "10",
+            "tags": [
+              "one",
+              "two",
+              "three",
+              "four",
+              "five"
+            ]
+          }
+        ],
+        "important": true
+      },
+      {
+        "id": "4",
+        "date": "2021-02-15",
+        "details": [
+          {
+            "type": "sleep",
+            "time": "time",
+            "duration": "8",
+            "quality": "9",
+            "tags": [
+              "one",
+              "two",
+              "three",
+              "four",
+              "five"
+            ]
+          },
+          {
+            "type": "mood",
+            "quality": "10",
+            "tags": [
+              "one",
+              "two",
+              "three",
+              "four",
+              "five"
+            ]
+          }
+        ],
+        "important": true
+      }
+    ]
+  }
+}
