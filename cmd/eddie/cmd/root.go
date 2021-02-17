@@ -2,8 +2,9 @@ package cmd
 
 import (
 	"fmt"
-	"os"
+	"log"
 
+	"github.com/iods/go-eddie/internal/config"
 	"github.com/spf13/cobra"
 )
 
@@ -22,8 +23,18 @@ var rootCmd = &cobra.Command{
 }
 
 func Execute() {
-	if err := rootCmd.Execute(); err != nil {
-		fmt.Println(err)
-		os.Exit(1)
+
+	c, err := config.GetConfigDir()
+	if err != nil {
+		log.Fatal(err)
 	}
+
+	fmt.Println(c)
+
+	config.CreateRecordsFile(c)
+
+	//if err := rootCmd.Execute(); err != nil {
+	//	fmt.Println(err)
+	//	os.Exit(1)
+	//}
 }
