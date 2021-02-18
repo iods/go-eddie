@@ -1,15 +1,21 @@
 package utils
 
 import (
-	"fmt"
 	"os"
 )
 
-// HandleError Handles the error and exits upon a failure.
-func HandleError(msg string, err error) {
+// ProjectInstall Quick installs the eddie CLI for SoC and modularity.
+func ProjectInstall() {
+	dir := setProjectDir()
+	setupConfigFile(dir)
+	setupRecordsFile(dir)
+}
 
-	if err != nil {
-		fmt.Println(msg, err)
-		os.Exit(1)
+// ProjectCheck Returns bool for triggering the eddie installation and configuration.
+func ProjectCheck() bool {
+	dir := setProjectDir()
+	if s, err := os.Stat(dir); err == nil && s.IsDir() {
+		return true // if the directory exists
 	}
+	return false
 }
