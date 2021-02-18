@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/iods/go-eddie/internal/utils"
 	"github.com/spf13/cobra"
 )
 
@@ -22,13 +23,10 @@ var rootCmd = &cobra.Command{
 }
 
 func Execute() {
-
-	// run eddies configurations
-
-
-	// if eddie is already setup continue, if not, welcome to eddie
-	// walk through some installations
-
+	// @TODO confirm this is necessary every execution
+	if utils.ProjectCheck() == false {
+		utils.ProjectInstall()
+	}
 	if err := rootCmd.Execute(); err != nil {
 		fmt.Println(err)
 		os.Exit(1)
