@@ -1,16 +1,10 @@
 package model
 
-type Detail struct {
-	Type     string
-	Time     string
-	Duration string
-	Quality  uint
-	Tags	 []string
-	Location string
-}
+import "gorm.io/gorm"
 
 type Record struct {
-	ID        string
-	Details   []Detail
-	Important bool
+	gorm.Model
+
+	Name string `json:"name"`
+	Type string `json:"type"`
 }

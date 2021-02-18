@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"fmt"
+	"github.com/iods/go-eddie/internal/datasource"
 	"os"
 
 	"github.com/iods/go-eddie/internal/utils"
@@ -26,6 +27,7 @@ func Execute() {
 	// @TODO confirm this is necessary every execution
 	if utils.ProjectCheck() == false {
 		utils.ProjectInstall()
+		datasource.Init()
 	}
 	if err := rootCmd.Execute(); err != nil {
 		fmt.Println(err)
