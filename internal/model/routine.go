@@ -1,5 +1,5 @@
 package model
 
-type Record struct {
+type Routine struct {
 	Name string `bson:""`
 }

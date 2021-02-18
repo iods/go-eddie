@@ -2,9 +2,8 @@ package cmd
 
 import (
 	"fmt"
-	"log"
+	"os"
 
-	"github.com/iods/go-eddie/internal/config"
 	"github.com/spf13/cobra"
 )
 
@@ -24,17 +23,14 @@ var rootCmd = &cobra.Command{
 
 func Execute() {
 
-	c, err := config.GetConfigDir()
-	if err != nil {
-		log.Fatal(err)
+	// run eddies configurations
+
+
+	// if eddie is already setup continue, if not, welcome to eddie
+	// walk through some installations
+
+	if err := rootCmd.Execute(); err != nil {
+		fmt.Println(err)
+		os.Exit(1)
 	}
-
-	fmt.Println(c)
-
-	config.CreateRecordsFile(c)
-
-	//if err := rootCmd.Execute(); err != nil {
-	//	fmt.Println(err)
-	//	os.Exit(1)
-	//}
 }

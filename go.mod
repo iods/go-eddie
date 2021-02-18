@@ -8,4 +8,6 @@ require (
 	github.com/joho/godotenv v1.3.0
 	github.com/spf13/cobra v1.1.1
 	golang.org/x/sys v0.0.0-20210124154548-22da62e12c0c // indirect
+	gorm.io/driver/sqlite v1.1.4
+	gorm.io/gorm v1.20.12
 )

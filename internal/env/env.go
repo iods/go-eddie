@@ -3,12 +3,12 @@ package env
 import (
 	"os"
 
-	"github.com/iods/go-eddie/internal/utils"
+	"github.com/iods/go-eddie/internal/helpers/error"
 	"github.com/joho/godotenv"
 )
 
-func EnvVar(key string) string {
+func Get(key string) string {
 	err := godotenv.Load("../../.env")
-	utils.HandleError("Error loading the .env file.", err)
+	error.Handle("error loading the .env file", err)
 	return os.Getenv(key)
 }
