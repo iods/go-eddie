@@ -24,9 +24,9 @@ func setProjectDir() string {
 	return eddieHome
 }
 
+// GetProjectDir Returns a public facing, always available string of eddie's installation path.
 func GetProjectDir() string {
-	dir := setProjectDir()
-	return dir
+	return setProjectDir()
 }
 
 // setupConfigFile Creates a configuration file with some defaults in the eddie project directory.
