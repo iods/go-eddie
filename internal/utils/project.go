@@ -24,11 +24,6 @@ func setProjectDir() string {
 	return eddieHome
 }
 
-// GetProjectDir Returns a public facing, always available string of eddie's installation path.
-func GetProjectDir() string {
-	return setProjectDir()
-}
-
 // setupConfigFile Creates a configuration file with some defaults in the eddie project directory.
 func setupConfigFile(eddieHome string) {
 	filename := filepath.Join(eddieHome, "/config")

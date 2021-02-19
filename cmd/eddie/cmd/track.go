@@ -8,9 +8,8 @@ package cmd
 */
 import (
 	"fmt"
+	"github.com/iods/go-eddie/internal/cli"
 	"time"
-
-	"strings"
 
 	helper "github.com/iods/go-eddie/internal/helpers/time"
 	"github.com/spf13/cobra"
@@ -28,26 +27,29 @@ your health. so here are some ways you can use him to the fullest:
   2. eddie sniff [activity] -{emoji, tags, time, duration, stress, quality, location, severity, important}
 `,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("eddie is tracking your", strings.Join(args, " "))
+
 		t, _ := cmd.Flags().GetString("time")
 		c, _ := cmd.Flags().GetInt("duration")
 		q, _ := cmd.Flags().GetInt("quality")
 		tags, _ := cmd.Flags().GetStringSlice("tags")
-		p, _ := cmd.Flags().GetInt("total")
 		l, _ := cmd.Flags().GetString("location")
+		i, _ := cmd.Flags().GetBool("important")
 
 		switch args[0] {
 		case "sleep":
 			sleep(t, c, q, tags, l, false)
 		case "weight":
-			weight(p, false)
+			err := cli.TrackWeight(args[1], i)
+			if err != nil {
+				panic(err)
+			}
 		case "mood":
 			mood(q, tags, false)
 		case "seizure":
 			seizure(t, tags, l, false)
 		}
 
-		i, _ := cmd.Flags().GetBool("important")
+
 		if i != false {
 			important()
 		}
@@ -66,13 +68,6 @@ func sleep(t string, d int, q int, tag []string, l string, f bool) {
 	for i := 0; i < len(tag); i++ {
 		fmt.Println(tag[i])
 	}
-	if f != false {
-		important()
-	}
-}
-
-func weight(v int, f bool) {
-	fmt.Println("You recorded your weight as:", v, "lbs")
 	if f != false {
 		important()
 	}

@@ -32,6 +32,7 @@ Flags:
 
 Use "eddie [command] --help" for more information about a command.
 ```
+eddie track mood 7 -tags="this,that,then,bag,of,chips" -stress=6 -quality=3 -emoji="joyful,happy,grateful,sad,loving,anxious,bored,frustrated,stressed)
 
 
 ### Ask

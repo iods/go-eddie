@@ -1,28 +1,144 @@
 package datasource
 
 import (
-	"encoding/json"
 	"fmt"
-	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
-	"path/filepath"
+	"log"
 
 	"github.com/iods/go-eddie/internal/model"
-	"github.com/iods/go-eddie/internal/utils"
 )
 
 func Init() {
-	db, err := gorm.Open(sqlite.Open(filepath.Join(utils.GetProjectDir(), "records.db")), &gorm.Config{})
+	/*
+
+	Database Connection
+
+	 */
+	InitDatabase()
+	db := GetDatabase()
+
+	/*
+
+	Creating Schema & Data
+
+	 */
+	// gorm will auto-generate the tables and schema on the fly
+	err := db.AutoMigrate(&model.Record{})
 	if err != nil {
-		panic("failed to connect database")
+		log.Fatal(err)
 	}
-	db.AutoMigrate(&model.Record{})
-	db.Create(&model.Record{
-		Name:  "Example Record",
-		Type:  "Sleep",
-	})
-	var records []model.Record
-	db.Find(&records)
-	data, _ := json.Marshal(&records)
-	fmt.Println(data)
+
+	// fill some default track records
+	one := &model.Record{
+		Type: "sleep",
+		EndTime: "07:44",
+		Duration: 7,
+		Quality: 9,
+		Tags: []model.Tag{
+			{Name: "SNL"},
+			{Name: "Code"},
+			{Name: "Floor"},
+			{Name: "Sweats"},
+		},
+		Important: false,
+	}
+
+	two := &model.Record{
+		Type: "mood",
+		Quality: 7,
+		Tags: []model.Tag{
+			{Name: "Resume"},
+			{Name: "Golang"},
+			{Name: "Trash Day"},
+			{Name: "Mountain Dew"},
+			{Name: "Sativa"},
+			{Name: "MPH"},
+		},
+		Emojis: []model.Emoji{
+			{Name: "Excited"},
+			{Name: "Bored"},
+			{Name: "Anxious"},
+			{Name: "Sad"},
+		},
+		Important: false,
+	}
+
+	three := &model.Record{
+		Type: "weight",
+		Total: "194",
+		Important: false,
+	}
+
+	four := &model.Record{
+		Type: "seizure",
+		EndTime: "11:33",
+		Tags: []model.Tag{
+			{Name: "caffeine"},
+			{Name: "video-games"},
+			{Name: "flashing-lights"},
+			{Name: "politics"},
+		},
+		Location: "Strip Club",
+		Important: true,
+	}
+
+	db.Create(&one)
+	fmt.Println(one.ID)
+
+	db.Create(&two)
+	fmt.Println(two.ID)
+
+	db.Create(&three)
+	fmt.Println(three.ID)
+
+	db.Create(&four)
+	fmt.Println(four.ID)
+
+	/*
+
+	Reading Data
+
+
+	var record model.Record
+
+	db.First(&record, 1) // find the record with the integer primary key
+	db.First(&record, "type = ?", "sleep") // find record with the type weight
+	*/
+
+
+
+	/*
+
+		Updating Data
+
+
+	db.Model(&record).Update("Quality", 8) // update the records name to 'updated'
+	db.Model(&record).Updates(model.Record{Important: true}) // non-zero fields
+	*/
+	newTag := []model.Tag{{Name: "tinlicker"}}
+	db.Omit("Tags").Updates(&two) // Update everything but tags.
+
+	fmt.Println(two.Tags)
+
+	err = db.Session(&gorm.Session{FullSaveAssociations: true}).Model(&two).Association("Tags").Append(newTag)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	fmt.Println("ID: ", two.ID)
+	fmt.Println("Created At:", two.CreatedAt)
+	fmt.Println("Type:", two.Type)
+	fmt.Println("Quality:", two.Quality)
+	fmt.Println("Tags:", two.Tags)
+	fmt.Println("Emojis:", two.Emojis)
+	fmt.Println("Is Important:", two.Important)
+	/*
+
+	Deleting Data
+
+
+	db.Delete(&record, 1) // delete by the id
+	*/
+
+
 }
