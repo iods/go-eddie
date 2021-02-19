@@ -27,7 +27,7 @@ func Execute() {
 	// @TODO confirm this is necessary every execution
 	if utils.ProjectCheck() == false {
 		utils.ProjectInstall()
-		datasource.Init()
+		db.Init()
 	}
 	if err := rootCmd.Execute(); err != nil {
 		fmt.Println(err)

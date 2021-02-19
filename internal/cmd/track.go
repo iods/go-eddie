@@ -28,6 +28,7 @@ your health. so here are some ways you can use him to the fullest:
 `,
 	Run: func(cmd *cobra.Command, args []string) {
 
+
 		t, _ := cmd.Flags().GetString("time")
 		c, _ := cmd.Flags().GetInt("duration")
 		q, _ := cmd.Flags().GetInt("quality")
@@ -45,6 +46,10 @@ your health. so here are some ways you can use him to the fullest:
 			}
 		case "mood":
 			mood(q, tags, false)
+			err := cli.TrackMood()
+			if err != nil {
+				panic(err)
+			}
 		case "seizure":
 			seizure(t, tags, l, false)
 		}
