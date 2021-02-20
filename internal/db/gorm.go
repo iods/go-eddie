@@ -3,9 +3,8 @@ package db
 import (
 	"fmt"
 	"gorm.io/gorm"
-	"log"
 
-	"github.com/iods/go-eddie/internal/model"
+	"github.com/iods/go-eddie/internal/db/schema"
 )
 
 func Init() {
@@ -22,19 +21,15 @@ func Init() {
 	Creating Schema & Data
 
 	 */
-	// gorm will auto-generate the tables and schema on the fly
-	err := db.AutoMigrate(&model.Record{})
-	if err != nil {
-		log.Fatal(err)
-	}
 
 	// fill some default track records
-	one := &model.Record{
+	one := &schema.Record{
 		Type: "sleep",
-		EndTime: "07:44",
-		Duration: 7,
+		From: "23:58",
+		To: "07:44",
+		Length: 7,
 		Quality: 9,
-		Tags: []model.Tag{
+		Tags: []schema.Tag{
 			{Name: "SNL"},
 			{Name: "Code"},
 			{Name: "Floor"},
@@ -43,10 +38,10 @@ func Init() {
 		Important: false,
 	}
 
-	two := &model.Record{
+	two := &schema.Record{
 		Type: "mood",
 		Quality: 7,
-		Tags: []model.Tag{
+		Tags: []schema.Tag{
 			{Name: "Resume"},
 			{Name: "Golang"},
 			{Name: "Trash Day"},
@@ -54,7 +49,7 @@ func Init() {
 			{Name: "Sativa"},
 			{Name: "MPH"},
 		},
-		Emojis: []model.Emoji{
+		Emojis: []schema.Emoji{
 			{Name: "Excited"},
 			{Name: "Bored"},
 			{Name: "Anxious"},
@@ -63,16 +58,16 @@ func Init() {
 		Important: false,
 	}
 
-	three := &model.Record{
+	three := &schema.Record{
 		Type: "weight",
 		Total: "194",
 		Important: false,
 	}
 
-	four := &model.Record{
+	four := &schema.Record{
 		Type: "seizure",
-		EndTime: "11:33",
-		Tags: []model.Tag{
+		To: "11:33", // does this need to be a time.Time separate of to/from?
+		Tags: []schema.Tag{
 			{Name: "caffeine"},
 			{Name: "video-games"},
 			{Name: "flashing-lights"},
@@ -115,12 +110,12 @@ func Init() {
 	db.Model(&record).Update("Quality", 8) // update the records name to 'updated'
 	db.Model(&record).Updates(model.Record{Important: true}) // non-zero fields
 	*/
-	newTag := []model.Tag{{Name: "tinlicker"}}
+	newTag := []schema.Tag{{Name: "tinlicker"}}
 	db.Omit("Tags").Updates(&two) // Update everything but tags.
 
 	fmt.Println(two.Tags)
 
-	err = db.Session(&gorm.Session{FullSaveAssociations: true}).Model(&two).Association("Tags").Append(newTag)
+	err := db.Session(&gorm.Session{FullSaveAssociations: true}).Model(&two).Association("Tags").Append(newTag)
 	if err != nil {
 		fmt.Println(err)
 	}

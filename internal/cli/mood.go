@@ -3,7 +3,7 @@ package cli
 import (
 	"fmt"
 	"github.com/iods/go-eddie/internal/db"
-	"github.com/iods/go-eddie/internal/model"
+	"github.com/iods/go-eddie/internal/db/schema"
 )
 
 func TrackMood() (err error) {
@@ -11,7 +11,7 @@ func TrackMood() (err error) {
 	db.InitDatabase()
 	database := db.GetDatabase()
 
-	r := &model.Record{
+	r := &schema.Record{
 		Type: "weight",
 
 	}

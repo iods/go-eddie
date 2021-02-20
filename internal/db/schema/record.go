@@ -6,13 +6,13 @@ type Record struct {
 	gorm.Model
 
 	Length    uint    `json:"length"`
-	Emojis	  []Emoji `gorm:"many2many:emojis;" json:"emojis"`
+	Emojis	  []Emoji `gorm:"many2many:record_emojis;" json:"emojis"`
 	Frequency uint    `json:"frequency"`
 	From      string  `json:"from"`
 	Important bool    `json:"important"`
 	Location  string  `json:"location"`
 	Quality   uint    `json:"quality"`
-	Tags      []Tag   `gorm:"many2many:tags;" json:"tags"`
+	Tags      []Tag   `gorm:"many2many:record_tags;" json:"tags"`
 	To        string  `json:"to"`
 	Total     string  `json:"total"`
 	Type      string  `json:"type"`

@@ -4,7 +4,7 @@ import (
 	"log"
 	"path/filepath"
 
-	"github.com/iods/go-eddie/internal/model"
+	"github.com/iods/go-eddie/internal/db/schema"
 	"github.com/iods/go-eddie/internal/utils"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
@@ -23,7 +23,8 @@ func InitDatabase() {
 		panic("failed to connect database")
 	}
 
-	err = db.AutoMigrate(&model.Record{})
+	// gorm will auto-generate the tables and schema on the fly
+	err = db.AutoMigrate(&schema.Record{})
 	if err != nil {
 		log.Fatal(err)
 	}
