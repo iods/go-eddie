@@ -45,8 +45,7 @@ your health. so here are some ways you can use him to the fullest:
 				panic(err)
 			}
 		case "mood":
-			mood(q, tags, false)
-			err := cli.TrackMood()
+			err := cli.TrackMood(q, tags, false)
 			if err != nil {
 				panic(err)
 			}
@@ -70,16 +69,6 @@ func sleep(t string, d int, q int, tag []string, l string, f bool) {
 	fmt.Println("You rated your sleep at a", q)
 	fmt.Println("You slept on the", l)
 	fmt.Println("You included the following tags:")
-	for i := 0; i < len(tag); i++ {
-		fmt.Println(tag[i])
-	}
-	if f != false {
-		important()
-	}
-}
-
-func mood(q int, tag []string, f bool) {
-	fmt.Println("You rated your mood at a", q)
 	for i := 0; i < len(tag); i++ {
 		fmt.Println(tag[i])
 	}

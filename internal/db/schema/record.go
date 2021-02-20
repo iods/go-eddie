@@ -5,13 +5,13 @@ import "gorm.io/gorm"
 type Record struct {
 	gorm.Model
 
-	Length    uint    `json:"length"`
+	Length    int    `json:"length"`
 	Emojis	  []Emoji `gorm:"many2many:record_emojis;" json:"emojis"`
-	Frequency uint    `json:"frequency"`
+	Frequency int    `json:"frequency"`
 	From      string  `json:"from"`
 	Important bool    `json:"important"`
 	Location  string  `json:"location"`
-	Quality   uint    `json:"quality"`
+	Quality   int    `json:"quality"`
 	Tags      []Tag   `gorm:"many2many:record_tags;" json:"tags"`
 	To        string  `json:"to"`
 	Total     string  `json:"total"`

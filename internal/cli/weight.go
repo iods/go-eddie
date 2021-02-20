@@ -23,4 +23,3 @@ func TrackWeight(w string, i bool) (err error) {
 	fmt.Println("Record ID:", r.ID)
 	return err
 }
-
