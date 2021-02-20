@@ -2,7 +2,7 @@ package cmd
 
 import (
 	"fmt"
-	"github.com/iods/go-eddie/internal/datasource"
+	"github.com/iods/go-eddie/internal/db"
 	"os"
 
 	"github.com/iods/go-eddie/internal/utils"

@@ -6,7 +6,7 @@ import (
 	"runtime"
 
 	"github.com/iods/go-eddie/internal/env"
-	"github.com/iods/go-eddie/internal/helpers/error"
+	"github.com/iods/go-eddie/internal/errors"
 )
 
 var eddieHome string
@@ -33,7 +33,7 @@ func setupConfigFile(eddieHome string) {
 			err = os.MkdirAll(eddieHome, os.ModePerm)
 		}
 		f, err := os.OpenFile(filename, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
-		error.Handle("unable to open file", err)
+		errors.Handle("unable to open file", err)
 		f.WriteString("[default]\n")
 		f.Close()
 	}
@@ -48,6 +48,6 @@ func setupRecordsFile(eddieHome string) {
 			err = os.MkdirAll(eddieHome, os.ModePerm)
 		}
 		_, err := os.OpenFile(filename, os.O_RDONLY|os.O_CREATE, 0644)
-		error.Handle("unable to open file", err)
+		errors.Handle("unable to open file", err)
 	}
 }

@@ -5,14 +5,15 @@ import "gorm.io/gorm"
 type Record struct {
 	gorm.Model
 
-	Duration  uint    `json:"duration"`
-	Emojis	  []Emoji `gorm:"many2many:record_emojis;" json:"record_emojis"`
-	EndTime   string  `json:"end_time"`
+	Length    uint    `json:"length"`
+	Emojis	  []Emoji `gorm:"many2many:emojis;" json:"emojis"`
+	Frequency uint    `json:"frequency"`
+	From      string  `json:"from"`
 	Important bool    `json:"important"`
 	Location  string  `json:"location"`
 	Quality   uint    `json:"quality"`
-	StartTime string  `json:"start_time"`
-	Tags      []Tag   `gorm:"many2many:record_tags;" json:"record_tags"`
+	Tags      []Tag   `gorm:"many2many:tags;" json:"tags"`
+	To        string  `json:"start_time"`
 	Total     string  `json:"total"`
 	Type      string  `json:"type"`
 }

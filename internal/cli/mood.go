@@ -6,21 +6,23 @@ import (
 	"github.com/iods/go-eddie/internal/model"
 )
 
-func TrackWeight(w string, i bool) (err error) {
+func TrackMood() (err error) {
 
 	db.InitDatabase()
-	data := db.GetDatabase()
+	database := db.GetDatabase()
 
 	r := &model.Record{
 		Type: "weight",
-		Total: w,
-		Important: i,
+
 	}
 
-	data.Create(&r)
+	database.Create(&r)
 
-	fmt.Printf("you reported your weight at %s today.\n", w)
 	fmt.Println("Record ID:", r.ID)
 	return err
 }
 
+func UpdateMood() (err error) {
+
+	return err
+}
