@@ -28,7 +28,6 @@ your health. so here are some ways you can use him to the fullest:
 `,
 	Run: func(cmd *cobra.Command, args []string) {
 
-
 		t, _ := cmd.Flags().GetString("time")
 		c, _ := cmd.Flags().GetInt("duration")
 		q, _ := cmd.Flags().GetInt("quality")
@@ -52,11 +51,6 @@ your health. so here are some ways you can use him to the fullest:
 			}
 		case "seizure":
 			seizure(t, tags, l, false)
-		}
-
-
-		if i != false {
-			important()
 		}
 	},
 }
@@ -105,7 +99,6 @@ func init() {
 	trackCmd.Flags().BoolP("important", "i", false, "If a record should be tagged important or not.")
 	trackCmd.Flags().StringP("location", "l", "none", "Location of activity or event.")
 	trackCmd.Flags().IntP("quality", "q", 0, "The quality of the time spent on the activity or event.")
-	trackCmd.Flags().Int("total", 0, "The total amount of an input for an activity or event.")
 	trackCmd.Flags().StringP("time", "t", "23:00", "The time the event or activity started.")
 
 	trackCmd.Flags().StringSlice("emojis", []string{}, "Emojis to include in your year of pixels.")

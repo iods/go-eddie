@@ -60,7 +60,7 @@ func Init() {
 
 	three := &schema.Record{
 		Type: "weight",
-		Total: "194",
+		Total: 194,
 		Important: false,
 	}
 
