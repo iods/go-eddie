@@ -27,10 +27,10 @@ func TrackMood(q int, tags []string, emojis []string, i bool) (err error) {
 	database.Create(&r)
 
 	fmt.Printf("You rated your mood a %d.\n", q)
-	isImportant(i)
 	fmt.Println("Record ID:", r.ID)
 	fmt.Println("Tags:", r.Tags)
 	fmt.Println("Emojis", r.Emojis)
+	isImportant(i)
 
 	return err
 }
