@@ -1,4 +1,4 @@
-package utils
+package project
 
 import (
 	"os"
@@ -11,8 +11,8 @@ import (
 
 var eddieHome string
 
-// setProjectDir Checks existence of eddie project for creation of initial files and configurations.
-func setProjectDir() string {
+// setDir Checks existence of eddie project for creation of initial files and configurations.
+func setDir() string {
 	eddieHome = env.Get("EDDIE_HOME")
 	if len(eddieHome) == 0 {
 		if runtime.GOOS == "windows" {

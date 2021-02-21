@@ -81,6 +81,7 @@ func sleep(t string, d int, q int, tag []string, l string, f bool) {
 func seizure(t string, tag []string, loc string, f bool) {
 	n := helper.UpdateTime(t)
 	fmt.Println(n)
+
 	for i := 0; i < len(tag); i++ {
 		fmt.Println(tag[i])
 	}

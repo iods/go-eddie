@@ -2,10 +2,10 @@ package cmd
 
 import (
 	"fmt"
-	"github.com/iods/go-eddie/internal/db"
 	"os"
 
-	"github.com/iods/go-eddie/internal/utils"
+	"github.com/iods/go-eddie/internal/db"
+	"github.com/iods/go-eddie/internal/util/project"
 	"github.com/spf13/cobra"
 )
 
@@ -25,10 +25,11 @@ var rootCmd = &cobra.Command{
 
 func Execute() {
 	// @TODO confirm this is necessary every execution
-	if utils.ProjectCheck() == false {
-		utils.ProjectInstall()
+	if project.Check() == false {
+		project.Install()
 		db.Init()
 	}
+
 	if err := rootCmd.Execute(); err != nil {
 		fmt.Println(err)
 		os.Exit(1)
