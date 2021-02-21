@@ -11,7 +11,7 @@ import (
 
 var eddieHome string
 
-// setupProjectDir Checks existence of eddie project for creation of initial files and configurations.
+// setProjectDir Checks existence of eddie project for creation of initial files and configurations.
 func setProjectDir() string {
 	eddieHome = env.Get("EDDIE_HOME")
 	if len(eddieHome) == 0 {

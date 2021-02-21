@@ -7,18 +7,22 @@ import (
 	"github.com/iods/go-eddie/internal/db/schema"
 )
 
-func TrackMood(q int, t []string, i bool) (err error) {
+func TrackMood(q int, tags []string, emojis []string, i bool) (err error) {
 
 	db.InitDatabase()
 	database := db.GetDatabase()
 
-	testStrings(t)
+	// create tool for reading records from DB in go-pherit, using GORM and sqlite in home dir
+
+	t := parseTags(tags)
+	e := parseEmoji(emojis)
 
 	r := &schema.Record{
 		Type: "mood",
 		Quality: q,
+		Tags: t,
+		Emojis: e,
 		Important: i,
-		Tags: testStrings(t),
 	}
 
 	database.Create(&r)
@@ -26,27 +30,30 @@ func TrackMood(q int, t []string, i bool) (err error) {
 	fmt.Printf("You rated your mood a %d.\n", q)
 	fmt.Println("Record ID:", r.ID)
 	fmt.Println("Tags:", r.Tags)
+	fmt.Println("Emojis", r.Emojis)
 	return err
 }
 
-func testStrings(strings []string) []schema.Tag {
+func parseEmoji(e []string) []schema.Emoji {
+	var emojis []schema.Emoji
 
-	// strings = []string{"hello", "world"}
-
-
-	var tag []schema.Tag
-
-	for _, s := range strings {
-		tag = []schema.Tag{{Name: s}}
+	l := len(e)
+	for i := 0; i < l; i++ {
+		emoji := []schema.Emoji{{Name: e[i]}}
+		emojis = append(emojis, emoji...)
 	}
 
-	return tag
-
+	return emojis
 }
 
-func mood(q int, tag []string, f bool) {
-	fmt.Println("You rated your mood at a", q)
-	for i := 0; i < len(tag); i++ {
-		fmt.Println(tag[i])
+func parseTags(t []string) []schema.Tag {
+	var tags []schema.Tag
+
+	l := len(t)
+	for i := 0; i < l; i++ {
+		tag := []schema.Tag{{Name: t[i]}}
+		tags = append(tags, tag...)
 	}
+
+	return tags
 }
