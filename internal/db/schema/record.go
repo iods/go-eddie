@@ -1,6 +1,9 @@
 package schema
 
-import "gorm.io/gorm"
+import (
+	"gorm.io/gorm"
+	"time"
+)
 
 type Record struct {
 	gorm.Model
@@ -14,6 +17,7 @@ type Record struct {
 	Quality   int   `json:"quality"`
 	Tags      []Tag   `gorm:"many2many:record_tags;" json:"tags"`
 	To        string  `json:"to"`
+	Time	  time.Time `json:"time"`
 	Total     int   `json:"total"`
 	Type      string  `json:"type"`
 }
