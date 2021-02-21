@@ -7,11 +7,7 @@ package cmd
 	--important
 */
 import (
-	"fmt"
 	"github.com/iods/go-eddie/internal/cli"
-	"time"
-
-	helper "github.com/iods/go-eddie/internal/helpers/time"
 	"github.com/spf13/cobra"
 )
 
@@ -28,17 +24,21 @@ your health. so here are some ways you can use him to the fullest:
 `,
 	Run: func(cmd *cobra.Command, args []string) {
 
-		t, _ := cmd.Flags().GetString("time")
-		c, _ := cmd.Flags().GetInt("duration")
-		q, _ := cmd.Flags().GetInt("quality")
+		t, _ := cmd.Flags().GetString("time") 	// time is translated into To, From, and Time depending on cmd
+		i, _ := cmd.Flags().GetBool("important")	// bool for yes/no importance
+		d, _ := cmd.Flags().GetInt("duration")	// used with length (length may be used by different scopes in future)
+		q, _ := cmd.Flags().GetInt("quality")		// used as a rating system, most often w/ duration
+		l, _ := cmd.Flags().GetString("location") // can be used with many, but is specific to seizure tracking (reports)
+
 		tags, _ := cmd.Flags().GetStringSlice("tags")
-		l, _ := cmd.Flags().GetString("location")
-		i, _ := cmd.Flags().GetBool("important")
 		emojis, _ := cmd.Flags().GetStringSlice("emojis")
 
 		switch args[0] {
 		case "sleep":
-			sleep(t, c, q, tags, l, false)
+			err := cli.TrackSleep(t, d, q, tags, i)
+			if err != nil {
+				panic(err)
+			}
 		case "weight":
 			err := cli.TrackWeight(args[1], i)
 			if err != nil {
@@ -58,34 +58,14 @@ your health. so here are some ways you can use him to the fullest:
 	},
 }
 
-func sleep(t string, d int, q int, tag []string, l string, f bool) {
-	n := helper.UpdateTime(t)
-	ts := n.Add(time.Duration(-d) * time.Hour)
-	fmt.Println("You fell asleep at:", ts)
-	fmt.Println("You woke up at:", n)
-	fmt.Println("You slept for a total of", d, "hours")
-	fmt.Println("You rated your sleep at a", q)
-	fmt.Println("You slept on the", l)
-	fmt.Println("You included the following tags:")
-	for i := 0; i < len(tag); i++ {
-		fmt.Println(tag[i])
-	}
-}
-
 func init() {
 	rootCmd.AddCommand(trackCmd)
 
-	// time is translated into To, From, and Time values depending on the command
 	trackCmd.Flags().StringP("time", "t", "23:00", "The time the event or activity started.")
-
-	// duration and quality are usually used in sync, and are of the same type (grouped)
+	trackCmd.Flags().BoolP("important", "i", false, "If a record should be tagged important or not.")
 	trackCmd.Flags().IntP("duration", "d", 0, "The time the event or activity lasted.")
 	trackCmd.Flags().IntP("quality", "q", 0, "The quality of the time spent on the activity or event.")
-
-	trackCmd.Flags().BoolP("important", "i", false, "If a record should be tagged important or not.")
 	trackCmd.Flags().StringP("location", "l", "none", "Location of activity or event.")
-
-	// flags requiring parsing or additional manipulation
 	trackCmd.Flags().StringSlice("emojis", []string{}, "Emojis to include in your year of pixels.")
 	trackCmd.Flags().StringSlice("tags", []string{}, "Tags to include about the activity or event.")
 }

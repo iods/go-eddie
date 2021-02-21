@@ -27,7 +27,7 @@ func Execute() {
 	// @TODO confirm this is necessary every execution
 	if project.Check() == false {
 		project.Install()
-		db.Init()
+		db.Test()
 	}
 
 	if err := rootCmd.Execute(); err != nil {
