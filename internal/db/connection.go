@@ -1,11 +1,11 @@
-package datasource
+package db
 
 import (
 	"log"
 	"path/filepath"
 
-	"github.com/iods/go-eddie/internal/model"
-	"github.com/iods/go-eddie/internal/utils"
+	"github.com/iods/go-eddie/internal/db/schema"
+	"github.com/iods/go-eddie/internal/util/project"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 )
@@ -14,7 +14,7 @@ var DB *gorm.DB
 
 func InitDatabase() {
 	db, err := gorm.Open(sqlite.Open(
-		filepath.Join(utils.GetProjectDir(), "records.db", // users home path
+		filepath.Join(project.Getdir(), "records.db", // users home path
 	)), &gorm.Config{
 		// include any configs?
 	})
@@ -23,7 +23,8 @@ func InitDatabase() {
 		panic("failed to connect database")
 	}
 
-	err = db.AutoMigrate(&model.Record{})
+	// gorm will auto-generate the tables and schema on the fly
+	err = db.AutoMigrate(&schema.Record{})
 	if err != nil {
 		log.Fatal(err)
 	}

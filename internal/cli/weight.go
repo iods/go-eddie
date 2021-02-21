@@ -2,25 +2,34 @@ package cli
 
 import (
 	"fmt"
-	"github.com/iods/go-eddie/internal/datasource"
-	"github.com/iods/go-eddie/internal/model"
+	"strconv"
+
+	"github.com/iods/go-eddie/internal/db"
+	"github.com/iods/go-eddie/internal/db/schema"
 )
 
-func TrackWeight(w string, i bool) (err error) {
+// TrackWeight Structures a weight record for insertion (create) into the database.
+func TrackWeight(t string, i bool) (err error) {
 
-	datasource.InitDatabase()
-	db := datasource.GetDatabase()
+	db.InitDatabase()
+	database := db.GetDatabase()
 
-	r := &model.Record{
+	var amount int
+	if i, err := strconv.Atoi(t); err == nil {
+		amount = i
+	}
+
+	r := &schema.Record{
 		Type: "weight",
-		Total: w,
+		Total: amount,
 		Important: i,
 	}
 
-	db.Create(&r)
+	database.Create(&r)
 
-	fmt.Printf("you reported your weight at %s today.\n", w)
+	fmt.Printf("you reported your weight at %d today.\n", r.Total)
+	isImportant(i)
 	fmt.Println("Record ID:", r.ID)
+
 	return err
 }
-

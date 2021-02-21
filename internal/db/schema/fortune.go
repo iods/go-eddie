@@ -1,4 +1,4 @@
-package model
+package schema
 
 type Fortunes struct {
 	Fortunes []Fortune

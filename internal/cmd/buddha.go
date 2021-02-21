@@ -9,7 +9,7 @@ import (
 	"os"
 	"time"
 
-	m "github.com/iods/go-eddie/internal/model"
+	m "github.com/iods/go-eddie/internal/db/schema"
 	"github.com/spf13/cobra"
 )
 
