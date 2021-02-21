@@ -50,7 +50,10 @@ your health. so here are some ways you can use him to the fullest:
 				panic(err)
 			}
 		case "seizure":
-			seizure(t, tags, l, false)
+			err := cli.TrackSeizure(t, tags, l, i)
+			if err != nil {
+				panic(err)
+			}
 		}
 	},
 }
@@ -67,40 +70,22 @@ func sleep(t string, d int, q int, tag []string, l string, f bool) {
 	for i := 0; i < len(tag); i++ {
 		fmt.Println(tag[i])
 	}
-	if f != false {
-		important()
-	}
-}
-
-func seizure(t string, tag []string, loc string, f bool) {
-	n := helper.UpdateTime(t)
-	fmt.Println(n)
-
-	for i := 0; i < len(tag); i++ {
-		fmt.Println(tag[i])
-	}
-	fmt.Println("You reported a seizure at the", loc)
-	if f != false {
-		important()
-	}
-}
-
-// important Tags records that are of importance in one way or another.
-func important() {
-	// --important, -i flag (not sure yet)
-	fmt.Println("You rated this one as important.")
 }
 
 func init() {
 	rootCmd.AddCommand(trackCmd)
 
-
-	trackCmd.Flags().IntP("duration", "d", 0, "The time the event or activity lasted.")
-	trackCmd.Flags().BoolP("important", "i", false, "If a record should be tagged important or not.")
-	trackCmd.Flags().StringP("location", "l", "none", "Location of activity or event.")
-	trackCmd.Flags().IntP("quality", "q", 0, "The quality of the time spent on the activity or event.")
+	// time is translated into To, From, and Time values depending on the command
 	trackCmd.Flags().StringP("time", "t", "23:00", "The time the event or activity started.")
 
+	// duration and quality are usually used in sync, and are of the same type (grouped)
+	trackCmd.Flags().IntP("duration", "d", 0, "The time the event or activity lasted.")
+	trackCmd.Flags().IntP("quality", "q", 0, "The quality of the time spent on the activity or event.")
+
+	trackCmd.Flags().BoolP("important", "i", false, "If a record should be tagged important or not.")
+	trackCmd.Flags().StringP("location", "l", "none", "Location of activity or event.")
+
+	// flags requiring parsing or additional manipulation
 	trackCmd.Flags().StringSlice("emojis", []string{}, "Emojis to include in your year of pixels.")
 	trackCmd.Flags().StringSlice("tags", []string{}, "Tags to include about the activity or event.")
 }
