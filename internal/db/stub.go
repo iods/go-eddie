@@ -1,39 +1,157 @@
 package db
 
 import (
-	"fmt"
+	"time"
 
 	"github.com/brianvoe/gofakeit/v6"
 	"github.com/iods/go-eddie/internal/db/schema"
+	"gorm.io/gorm"
 )
 
 
-func stubMood()  {
-	var stub schema.Record
-	gofakeit.Struct(&stub)
+func stubMood() *schema.Record {
 
-	tags := stub.Tags
-	emojis := stub.Emojis
+	InitDatabase()
+	database := GetDatabase()
 
-	mood := &schema.Record{
+	var r schema.Record
+	gofakeit.Struct(&r)
 
-		Quality: stub.Quality,
-		Tags: tags,
-		Emojis: emojis,
-		Important: stub.Important,
+	now := time.Now()
+	then := now.AddDate(0, -13, -31)
+	date := gofakeit.DateRange(then, now)
+
+	sleep := &schema.Record{
+		Model:     gorm.Model{
+			CreatedAt: date,
+		},
+		Length:    0,
+		Emojis:    r.Emojis,
+		Frequency: 0,
+		From:      time.Time{},
+		Important: r.Important,
+		Location:  "",
+		Quality:   r.Quality,
+		Tags:      r.Tags,
+		To:        time.Time{},
+		Time:      date,
+		Total:     0,
+		Type:      "mood",
 	}
 
-	fmt.Println("You recorded your mood a", mood.Quality)
-	fmt.Println("You recorded the following tags with your mood:", mood.Tags)
-	fmt.Println("You recorded the following emojis with your mood:", mood.Emojis)
-	if mood.Important != false {
-		fmt.Println("You recorded this record as important.")
+	database.Create(&sleep)
+	return sleep
+}
+
+func stubSleep() *schema.Record {
+	InitDatabase()
+	database := GetDatabase()
+
+	var r schema.Record
+	gofakeit.Struct(&r)
+
+	now := time.Now()
+	then := now.AddDate(0, -13, -31)
+	date := gofakeit.DateRange(then, now)
+	datefrom := date.Add(time.Duration(-r.Length) * time.Hour)
+
+	sleep := &schema.Record{
+		Model:     gorm.Model{
+			CreatedAt: date,
+		},
+		Length:    r.Length,
+		Emojis:    nil,
+		Frequency: 0,
+		From:      datefrom,
+		Important: r.Important,
+		Location:  r.Location,
+		Quality:   r.Quality,
+		Tags:      r.Tags,
+		To:        date,
+		Time:      date,
+		Total:     0,
+		Type:      "sleep",
+	}
+
+	database.Create(&sleep)
+	return sleep
+}
+
+func stubSeizure() *schema.Record {
+	InitDatabase()
+	database := GetDatabase()
+
+	var r schema.Record
+	gofakeit.Struct(&r)
+
+	now := time.Now()
+	then := now.AddDate(0, -13, -31)
+	date := gofakeit.DateRange(then, now)
+
+	seizure := &schema.Record{
+		Model:     gorm.Model{
+			CreatedAt: date,
+		},
+		Length:    0,
+		Emojis:    nil,
+		Frequency: 0,
+		From:      time.Time{},
+		Important: r.Important,
+		Location:  r.Location,
+		Quality:   0,
+		Tags:      r.Tags,
+		To:        date,
+		Time:      date,
+		Total:     0,
+		Type:      "seizure",
+	}
+
+	database.Create(&seizure)
+	return seizure
+}
+
+func stubWeight() *schema.Record {
+	InitDatabase()
+	database := GetDatabase()
+
+	var r schema.Record
+	gofakeit.Struct(&r)
+
+	now := time.Now()
+	then := now.AddDate(0, -13, -31)
+	date := gofakeit.DateRange(then, now)
+
+	weight := &schema.Record{
+		Model:     gorm.Model{
+			CreatedAt: date,
+		},
+		Length:    0,
+		Emojis:    nil,
+		Frequency: 0,
+		From:      time.Time{},
+		Important: r.Important,
+		Location:  "",
+		Quality:   0,
+		Tags:      nil,
+		To:        time.Time{},
+		Time:      date,
+		Total:     r.Total,
+		Type:      "weight",
+	}
+
+	database.Create(&weight)
+	return weight
+}
+
+func stub(f func() *schema.Record, c int) {
+	for i := 0; i < c; i++ {
+		f()
 	}
 }
 
 func StubDatabase() {
-
-	for i := 0; i < 5; i++ {
-		stubMood()
-	}
+	stub(stubMood, 300)
+	stub(stubSleep, 365)
+	stub(stubSeizure, 45)
+	stub(stubWeight, 130)
 }

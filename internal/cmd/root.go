@@ -27,7 +27,7 @@ func Execute() {
 	// @TODO confirm this is necessary every execution
 	if project.Check() == false {
 		project.Install()
-		db.Test()
+		db.StubDatabase()
 	}
 
 	if err := rootCmd.Execute(); err != nil {
