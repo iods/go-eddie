@@ -1,9 +1,7 @@
 package cmd
 
 import (
-	"fmt"
-	"strings"
-
+	"github.com/iods/go-eddie/internal/cli/template"
 	"github.com/spf13/cobra"
 )
 
@@ -18,7 +16,19 @@ he creates some dashboards, then builds a webpage with some
 cool looking data about what you have been up to.
 `,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("Eddie will show you what your " + strings.Join(args, "") + " looks like lately.")
+
+		switch args[0] {
+		case "demo":
+			template.RenderDemo()
+		case "mood":
+			template.RenderMood()
+		case "seizure":
+			template.RenderSeizure()
+		case "sleep":
+			template.RenderSleep()
+		case "weight":
+			template.RenderWeight()
+		}
 	},
 }
 
