@@ -30,6 +30,7 @@ func TrackSleep(s string, l int, q int, tags []string, b bool) error {
 
 	database.Create(&r)
 	fmt.Println("Record ID:", r.ID)
+	fmt.Println("Record Length", r.Length)
 
 	return nil
 }
