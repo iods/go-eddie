@@ -2,6 +2,7 @@ package parse
 
 import "github.com/iods/go-eddie/internal/db/schema"
 
+
 func Emojis(e []string) []schema.Emoji {
 	var emojis []schema.Emoji
 
