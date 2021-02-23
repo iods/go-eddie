@@ -1,7 +1,9 @@
 package cmd
 
 import (
+	"fmt"
 	"github.com/iods/go-eddie/internal/cli/template"
+	"github.com/iods/go-eddie/internal/db/models"
 	"github.com/spf13/cobra"
 )
 
@@ -27,11 +29,26 @@ cool looking data about what you have been up to.
 		case "sleep":
 			template.RenderSleep()
 		case "weight":
-			template.RenderWeight()
+			// weight.GetAverage()
+			//template.RenderWeight()
+
+			reportWeight()
+
+
 		}
 	},
 }
 
 func init() {
 	rootCmd.AddCommand(reportCmd)
+}
+
+func reportWeight() {
+	var weightModel models.WeightModel
+
+	r, _ := weightModel.GetRecords()
+
+	for _, result := range r {
+		fmt.Println(result.ToString())
+	}
 }

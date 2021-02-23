@@ -19,7 +19,9 @@ func stubMood() *schema.Record {
 
 	now := time.Now()
 	then := now.AddDate(0, -13, -31)
-	date := gofakeit.DateRange(then, now)
+	tmp := gofakeit.DateRange(then, now)
+	d := tmp.Format("2006-01-02 3:04PM")
+	date, _ := time.Parse("2006-01-02 3:04PM", d)
 
 	sleep := &schema.Record{
 		Model:     gorm.Model{
@@ -52,7 +54,9 @@ func stubSleep() *schema.Record {
 
 	now := time.Now()
 	then := now.AddDate(0, -13, -31)
-	date := gofakeit.DateRange(then, now)
+	tmp := gofakeit.DateRange(then, now)
+	d := tmp.Format("2006-01-02 3:04PM")
+	date, _ := time.Parse("2006-01-02 3:04PM", d)
 	datefrom := date.Add(time.Duration(-r.Length) * time.Hour)
 
 	sleep := &schema.Record{
@@ -86,7 +90,9 @@ func stubSeizure() *schema.Record {
 
 	now := time.Now()
 	then := now.AddDate(0, -13, -31)
-	date := gofakeit.DateRange(then, now)
+	tmp := gofakeit.DateRange(then, now)
+	d := tmp.Format("2006-01-02 3:04PM")
+	date, _ := time.Parse("2006-01-02 3:04PM", d)
 
 	seizure := &schema.Record{
 		Model:     gorm.Model{
@@ -119,7 +125,9 @@ func stubWeight() *schema.Record {
 
 	now := time.Now()
 	then := now.AddDate(0, -13, -31)
-	date := gofakeit.DateRange(then, now)
+	tmp := gofakeit.DateRange(then, now)
+	d := tmp.Format("2006-01-02 3:04PM")
+	date, _ := time.Parse("2006-01-02 3:04PM", d)
 
 	weight := &schema.Record{
 		Model:     gorm.Model{

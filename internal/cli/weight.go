@@ -28,7 +28,7 @@ func TrackWeight(t string, i bool) (err error) {
 
 	database.Create(&r)
 
-	fmt.Printf("you reported your weight at %d today.\n", r.Total)
+	fmt.Printf("you reported your weight at %f today.\n", r.Total)
 	isImportant(i)
 	fmt.Println("Record ID:", r.ID)
 

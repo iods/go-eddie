@@ -1,13 +1,11 @@
 package template
 
 import (
-	"fmt"
-	ui "github.com/gizak/termui/v3"
-	"github.com/gizak/termui/v3/widgets"
-	"github.com/iods/go-eddie/internal/db"
-	"github.com/iods/go-eddie/internal/db/schema"
 	"log"
 	"time"
+
+	ui "github.com/gizak/termui/v3"
+	"github.com/gizak/termui/v3/widgets"
 )
 
 func RenderWeight() {
@@ -16,16 +14,6 @@ func RenderWeight() {
 	}
 	defer ui.Close()
 
-	var records []schema.Record
-
-	db.InitDatabase()
-	database := db.GetDatabase()
-
-	database.Where("type LIKE ?", "%weight%").Find(&records)
-
-	for _, value := range records {
-		fmt.Println("Total weight was:", value.Total)
-	}
 
 	title := widgets.NewParagraph()
 	title.Border = false
@@ -42,7 +30,7 @@ func RenderWeight() {
 
 
 	avg := widgets.NewBarChart()
-	avg.Data = []float64{194, 182, 192, 185, 186, 199, 192, 197, 199, 189, 188, 191}
+	avg.Data = []float64{197, 182, 192, 185, 186, 199, 192, 197, 199, 189, 188, 191}
 	avg.Labels = []string{"JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"}
 	avg.Border = false
 	avg.BarWidth = 5
