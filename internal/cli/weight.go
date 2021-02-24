@@ -2,9 +2,10 @@ package cli
 
 import (
 	"fmt"
+	"strconv"
+
 	"github.com/iods/go-eddie/internal/db"
 	"github.com/iods/go-eddie/internal/db/schema"
-	"strconv"
 )
 
 // TrackWeight Structures a weight record for insertion (create) into the database.
