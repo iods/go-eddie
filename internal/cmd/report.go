@@ -2,8 +2,8 @@ package cmd
 
 import (
 	"fmt"
-	"github.com/iods/go-eddie/internal/cli/template"
 	"github.com/iods/go-eddie/internal/db/models"
+	"github.com/iods/go-eddie/internal/errors"
 	"github.com/spf13/cobra"
 )
 
@@ -21,19 +21,86 @@ cool looking data about what you have been up to.
 
 		switch args[0] {
 		case "demo":
-			template.RenderDemo()
+			var model models.RecordModel
+
+			a, err := model.GetRecords()
+			errors.Handle("something went wrong retrieving all records.", err)
+
+			for _, r1 := range a {
+				fmt.Printf("id: %d\ncreated at: %v\n", r1.ID, r1.CreatedAt)
+			}
+
+			b, err := model.GetRecordsByDate("2020-04-26")
+			errors.Handle("something bad happened", err)
+
+			for _, r2 := range b {
+				fmt.Println(r2.ID)
+			}
+
+			c, err := model.GetRecordsByDateRange("2020-04-01", "2020-04-30")
+			errors.Handle("something bad happened when getting the range records.", err)
+
+			for _, r3 := range c {
+				fmt.Printf("id: %d\ncreated at: %v\n", r3.ID, r3.CreatedAt)
+			}
 		case "mood":
-			template.RenderMood()
+
+
+
+
 		case "seizure":
-			template.RenderSeizure()
+
+
+
+
+
+
 		case "sleep":
-			template.RenderSleep()
+
+
+
+
+
+
+
+
+
+
+
 		case "weight":
-			// weight.GetAverage()
-			//template.RenderWeight()
+			var model models.WeightModel
 
-			reportWeight()
+			a, err := model.GetWeightRecords()
+			errors.Handle("something happened while getting all of the weight records", err)
 
+			for _, r1 := range a {
+				fmt.Printf("id: %d\ncreated at: %v\n", r1.ID, r1.CreatedAt)
+			}
+
+			b, err := model.GetWeightRecordsByDate("2020-04-26")
+			errors.Handle("something happened while getting the records by date", err)
+
+			for _, r2 := range b {
+				fmt.Printf("id: %d\ncreated at: %v\n", r2.ID, r2.CreatedAt)
+			}
+
+			c, err := model.GetWeightRecordsByDateRange("2020-12-22", "2021-02-22")
+			errors.Handle("something bad happened when getting the range records.", err)
+
+			for _, r3 := range c {
+				fmt.Printf("id: %d\ncreated at: %v\n", r3.ID, r3.CreatedAt)
+			}
+			// get avg of 3, 6, 9 months
+
+
+			// get monthly average
+
+			// get highest weight, and when it was
+			// get lowest weight, and when it was
+
+			// get and list all the important ones
+
+			// pie chart avg for season (weighed most in winter)
 
 		}
 	},
@@ -41,14 +108,4 @@ cool looking data about what you have been up to.
 
 func init() {
 	rootCmd.AddCommand(reportCmd)
-}
-
-func reportWeight() {
-	var weightModel models.WeightModel
-
-	r, _ := weightModel.GetRecords()
-
-	for _, result := range r {
-		fmt.Println(result.ToString())
-	}
 }

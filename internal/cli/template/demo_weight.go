@@ -27,10 +27,8 @@ func RenderWeight() {
 	clock.TextStyle = ui.NewStyle(ui.ColorWhite)
 	clock.PaddingLeft = 3
 
-
-
 	avg := widgets.NewBarChart()
-	avg.Data = []float64{197, 182, 192, 185, 186, 199, 192, 197, 199, 189, 188, 191}
+	avg.Data = []float64{}
 	avg.Labels = []string{"JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"}
 	avg.Border = false
 	avg.BarWidth = 5
