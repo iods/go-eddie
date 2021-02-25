@@ -53,3 +53,13 @@ func (r RecordModel) GetRecordsByDateRange(from string, to string) ([]schema.Rec
 	return results, nil
 }
 
+func (r RecordModel) GetRecordsByImportance() ([]schema.Record, error) {
+	db.InitDatabase()
+	database := db.GetDatabase()
+	var results []schema.Record
+
+	// using inline conditions
+	database.Debug().Find(&results, "important = ?", true)
+
+	return results, nil
+}

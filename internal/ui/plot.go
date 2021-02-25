@@ -39,6 +39,7 @@ func main() {
 	p1.Title = "dot-mode line Chart"
 	p1.Marker = widgets.MarkerDot
 	p1.Data = [][]float64{[]float64{1, 2, 3, 4, 5}}
+	p1.HorizontalScale = 100
 	p1.SetRect(50, 0, 75, 10)
 	p1.DotMarkerRune = '+'
 	p1.AxesColor = ui.ColorWhite
