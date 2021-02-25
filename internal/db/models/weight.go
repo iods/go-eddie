@@ -50,37 +50,12 @@ func (w WeightModel) GetWeightRecordsByDateRange(from string, to string) ([]sche
 	return results, nil
 }
 
-
-
-
-
-
-
-func (w WeightModel) FindByDates(start time.Time, finish time.Time) ([]schema.Record, error) {
-	var result []schema.Record
-
+func (w WeightModel) GetWeightRecordsByImportance() ([]schema.Record, error) {
 	db.InitDatabase()
 	database := db.GetDatabase()
-	database.Where("created_at BETWEEN ? AND ?", start, finish)
-	database.Where("type = ?", "weight").Find(&result)
-
-	return result, nil
-}
-
-
-func (w WeightModel) FindByMonth(month string) ([]schema.Record, error) {
-	db.InitDatabase()
-	database := db.GetDatabase()
-
 	var results []schema.Record
 
-	start, _ := time.Parse("2006-01-02 3:04PM", "2020-" + month + "-01 0:00AM")
-	end, _ := time.Parse("2006-01-02 3:04PM",  "2020-" + month + "-31 0:00AM")
-
-	database.Where("created_at BETWEEN ? AND ?", start, end)
-	database.Where("type = ?", "weight")
-
-	database.Find(&results)
+	database.Debug().Find(&results, "type = ? AND important = ?", "weight", true)
 
 	return results, nil
 }
