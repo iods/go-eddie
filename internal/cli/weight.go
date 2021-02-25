@@ -14,9 +14,11 @@ func TrackWeight(t string, i bool) (err error) {
 	db.InitDatabase()
 	database := db.GetDatabase()
 
-	var amount int
-	if i, err := strconv.Atoi(t); err == nil {
-		amount = i
+	var amount float64
+
+	amount, err = strconv.ParseFloat(t, 64)
+	if err != nil {
+		panic(err)
 	}
 
 	r := &schema.Record{
@@ -27,7 +29,7 @@ func TrackWeight(t string, i bool) (err error) {
 
 	database.Create(&r)
 
-	fmt.Printf("you reported your weight at %d today.\n", r.Total)
+	fmt.Printf("you reported your weight at %f today.\n", r.Total)
 	isImportant(i)
 	fmt.Println("Record ID:", r.ID)
 
