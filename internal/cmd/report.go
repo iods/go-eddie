@@ -126,16 +126,13 @@ cool looking data about what you have been up to.
 			m1, m2 := getMinMax(total)
 			fmt.Printf("Your min/max is \nmin:%v (created :%v)\nmax:%v (%v)\n", m1.Total, m1.CreatedAt, m2.Total, m2.CreatedAt)
 
-			
+
 			important, err := model.GetWeightRecordsByImportance()
 			errors.Handle("something happened getting the important weight records", err)
 
 			for _, imp := range important {
 				fmt.Printf("id: %d\ncreated at: %v\nimportance: %v\n", imp.ID, imp.CreatedAt, imp.Important)
 			}
-
-			// pie chart avg for season (weighed most in winter)
-
 		}
 	},
 }
