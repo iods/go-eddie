@@ -1,10 +1,11 @@
 package models
 
 import (
+	"time"
+
 	"github.com/iods/go-eddie/internal/db"
 	"github.com/iods/go-eddie/internal/db/schema"
 	"github.com/iods/go-eddie/internal/errors"
-	"time"
 )
 
 type RecordModel struct {}
@@ -13,16 +14,35 @@ var (
 	format = "2006-01-02"
 )
 
+
 // GetRecords Returns all entities from the datasource for ...
 func (r RecordModel) GetRecords() ([]schema.Record, error) {
 	db.InitDatabase()
 	database := db.GetDatabase()
 
 	var results []schema.Record
-
 	database.Debug().Find(&results)
-
 	return results, nil
+}
+
+// GetRecordsFirst Returns the first created_at record in the database for use with filtering and calculations.
+func (r RecordModel) GetRecordsFirst() (schema.Record, error) {
+	db.InitDatabase()
+	database := db.GetDatabase()
+
+	var record schema.Record
+	database.Debug().Order("created_at asc").First(&record)
+	return record, nil
+}
+
+// GetRecordsLast Returns the most recent created_at record in the database for use with filtering and calculations.
+func (r RecordModel) GetRecordsLast() (schema.Record, error) {
+	db.InitDatabase()
+	database := db.GetDatabase()
+
+	var record schema.Record
+	database.Debug().Order("created_at desc").First(&record)
+	return record, nil
 }
 
 // GetRecordsByDate Extends GetRecords by returning records based on a specified date for ...
