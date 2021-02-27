@@ -10,7 +10,7 @@ import (
 
 type WeightModel struct {}
 
-// GetWeightRecords Returns all records of type `weight` for ...
+// GetWeightRecords Returns all records of type `weight` for filtering with and rendering in dashboard views.
 func (w WeightModel) GetWeightRecords() ([]schema.Record, error) {
 	db.InitDatabase()
 	database := db.GetDatabase()
@@ -22,7 +22,7 @@ func (w WeightModel) GetWeightRecords() ([]schema.Record, error) {
 	return results, nil
 }
 
-// GetWeightRecordsByDate Returns a set of records within the date provided for ...
+// GetWeightRecordsByDate Returns a slice of records matching the created_at date provided for ...
 func (w WeightModel) GetWeightRecordsByDate(d string) ([]schema.Record, error) {
 	db.InitDatabase()
 	database := db.GetDatabase()
@@ -35,14 +35,16 @@ func (w WeightModel) GetWeightRecordsByDate(d string) ([]schema.Record, error) {
 	return results, nil
 }
 
-func (w WeightModel) GetWeightRecordsByDateRange(from string, to string) ([]schema.Record, error) {
+// GetWeightRecordsByDateRangeCustom Returns a set of records by searching two dates for...
+func (w WeightModel) GetWeightRecordsByRange(from string, monthRange int) ([]schema.Record, error) {
 	db.InitDatabase()
 	database := db.GetDatabase()
 
 	var results []schema.Record
 
 	f, err := time.Parse("2006-01-02", from)
-	t, err := time.Parse("2006-01-02", to)
+	t := f.AddDate(0, monthRange, -1)
+
 	errors.Handle("unable to parse these dates", err)
 
 	database.Debug().Where("created_at BETWEEN ? AND ?", f, t).Where("type = ?", "weight").Find(&results)
@@ -50,6 +52,29 @@ func (w WeightModel) GetWeightRecordsByDateRange(from string, to string) ([]sche
 	return results, nil
 }
 
+
+func (w WeightModel) GetWeightRecordsByRangeCustom(from string, to string) ([]schema.Record, error) {
+	db.InitDatabase()
+	database := db.GetDatabase()
+
+	var results []schema.Record
+
+	f, err := time.Parse("2006-01-02", from)
+	t, err := time.Parse("2006-01-02", to)
+
+	errors.Handle("unable to parse these.", err)
+
+	database.Debug().Where("created_at BETWEEN ? AND ?", f, t).Where("type = ?", "weight").Find(&results)
+
+	return results, nil
+}
+
+
+
+
+
+
+// GetWeightRecordsByImportance Returns a slice of records for filtering or comparing with others.
 func (w WeightModel) GetWeightRecordsByImportance() ([]schema.Record, error) {
 	db.InitDatabase()
 	database := db.GetDatabase()

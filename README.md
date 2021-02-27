@@ -47,6 +47,17 @@ $ eddie ask buddha // returns a motivational message from Buddha
 
 Eddie tracks your sleep, mood, weight, and much more!
 
+### Report
+
+#### Weight
+
+Dashboard for eddie currently:
+
+<h3 align="center">
+    <img src="/assets/weight.png" height="300" />
+</h3>
+
+
 
 ## Development
 
