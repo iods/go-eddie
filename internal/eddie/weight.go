@@ -79,10 +79,8 @@ func GetWeightAverageByMonth(month int) (string, float64, float64) {
 	target := date.AddDate(0, -month, -1)
 
 	results, _ := weightModel.GetWeightRecordsByRange(target.Format(format), 1)
-	var a string
 	var b []float64
 	for _, result := range results {
-		a = result.CreatedAt.UTC().Format("Jan")
 		b = append(b, result.Total)
 	}
 
@@ -91,13 +89,14 @@ func GetWeightAverageByMonth(month int) (string, float64, float64) {
 		total += v
 	}
 
-	c := fmt.Sprintf("%.1f", total / float64(len(b)))
+	min, max := getMinMax(results)
+	avg := total / float64(len(b))
 
-	return a, c, total / float64(len(b))
+	return fmt.Sprintf("%0.1f", avg), max.Total, min.Total
 }
 
 
-func GetWeightAverageTotal() (float64, error) {
+func GetWeightAverageTotal() (float64, string, string, error) {
 	var total = 0.0
 
 	results, err := weightModel.GetWeightRecords()
@@ -106,10 +105,34 @@ func GetWeightAverageTotal() (float64, error) {
 	for _, v := range results {
 		total += v.Total
 	}
-	return total / float64(len(results)), nil
+
+	min, max := getMinMax(results)
+	m1 := fmt.Sprintf("%0.1f", min.Total)
+	m2 := fmt.Sprintf("%0.1f", max.Total)
+
+	return total / float64(len(results)), m2, m1, nil
 }
 
+func GetWeightAverageTotalTrend() (string, string) {
 
+	results, err := weightModel.GetWeightRecords()
+	errors.Handle("handle it at some point", err)
+
+	min, max := getMinMax(results)
+
+	total := 0.0
+
+	for _, v := range results {
+		total += v.Total
+	}
+
+	tmp := total / float64(len(results))
+
+	l := tmp - min.Total
+	g := max.Total - tmp
+
+	return fmt.Sprintf("%0.1f", l), fmt.Sprintf("%0.1f", g)
+}
 
 
 
