@@ -18,37 +18,34 @@ func ReportDashboard() {
 
 	title := widgets.NewParagraph()
 	title.Border = false
-	title.Text = "eddie, a man's best friend. v0.1.0"
+	title.Text = `eddie 🐕 the cli service dog. v0.1.0`
 	title.TextStyle = ui.NewStyle(ui.ColorBlue)
 	title.PaddingLeft = 3
 
 
 	clock := widgets.NewParagraph()
 	clock.Border = false
-	clock.Text = time.Now().Format("15:04:05 🕰️   January 2, 2006")
+	clock.Text = time.Now().Format("January 2, 2006 🕰️  15:04:05")
 	clock.TextStyle = ui.NewStyle(ui.ColorWhite)
 	clock.PaddingLeft = 3
 
 	var yearData []float64
-	var yearLabel []string
-
 	for i := 1; i < 13; i++ {
-		label, avg := cli.GetWeightAverageByMonth(i)
+		avg := cli.GetWeightAverageByMonth(i)
 		yearData = append(yearData, avg)
-		yearLabel = append(yearLabel, label)
 	}
 
 	year := widgets.NewBarChart()
 	year.Border = false
+	year.NumFormatter = func(a float64) string { return fmt.Sprintf("%.0f", a) }
 	year.BarWidth = 5
 	year.BarGap = 1
 	year.BarColors = []ui.Color{ui.ColorBlue, ui.ColorCyan}
 	year.LabelStyles = []ui.Style{ui.NewStyle(ui.ColorCyan)}
 	year.NumStyles = []ui.Style{ui.NewStyle(ui.ColorBlack)}
 	year.Data = yearData
-	year.Labels = yearLabel
+	year.Labels = []string{"1m", "2m", "3m", "4m", "5m", "6m", "7m", "8m", "9m", "10m", "11m", "12m"}
 	year.LabelStyles = []ui.Style{ui.NewStyle(ui.ColorWhite)}
-
 
 	sbc := widgets.NewStackedBarChart()
 	sbc.Border = false
@@ -73,20 +70,21 @@ func ReportDashboard() {
 	text.PaddingLeft = 1
 
 
-	oneMonth, _ := cli.GetWeightAverage(1, false)
-	threeMonths, _ := cli.GetWeightAverage(3, false)
-	sixMonths, _ := cli.GetWeightAverage(6, false)
-	nineMonths, _ := cli.GetWeightAverage(9, false)
+	oneMonth := cli.GetWeightAverageByMonth(1)
+	//threeMonths, _ := cli.GetWeightAverage(3, false)
+	threeMonth := cli.GetWeightAverageByMonth(3)
+	sixMonths := cli.GetWeightAverageByMonth(6)
+	nineMonths := cli.GetWeightAverageByMonth(9)
 	total, _ := cli.GetWeightAverageTotal()
 
 	track := widgets.NewTable()
 	track.Rows = [][]string{
 		{"Timeframe", "Weight (-)", "Weight (+)", "Weight (avg)", "Weight (h)", "Weight (l)" },
-		{"30 Days", "1.0", "1.0", fmt.Sprintf("%.1f", oneMonth),"184", "184"},
-		{"90 Days", "0.0", "4.0", fmt.Sprintf("%.1f", threeMonths),"192", "185"},
-		{"6 Months", "3.0", "0.0", fmt.Sprintf("%.1f", sixMonths),"188", "186"},
-		{"9 Months", "3.0", "0.0", fmt.Sprintf("%.1f", nineMonths),"189", "181"},
-		{"Total", "3.0", "2.0", fmt.Sprintf("%.1f", total),"187", "179"},
+		{"30 Days", "1.0", "1.0", fmt.Sprintf("%0.1f", oneMonth),"184", "184"},
+		{"90 Days", "0.0", "4.0", fmt.Sprintf("%0.1f", threeMonth),"192", "185"},
+		{"6 Months", "3.0", "0.0", fmt.Sprintf("%0.1f", sixMonths),"188", "186"},
+		{"9 Months", "3.0", "0.0", fmt.Sprintf("%0.1f", nineMonths),"189", "181"},
+		{"Total", "3.0", "2.0", fmt.Sprintf("%0.1f", total),"187", "179"},
 	}
 	track.TextStyle = ui.NewStyle(ui.ColorWhite)
 	track.RowSeparator = true
