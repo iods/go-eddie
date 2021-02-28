@@ -1,36 +1,26 @@
-package cli
+package eddie
 
 import (
-	"fmt"
-
 	"github.com/iods/go-eddie/internal/db"
 	"github.com/iods/go-eddie/internal/db/schema"
 	"github.com/iods/go-eddie/internal/util/parse"
 )
 
-func TrackMood(q int, tags []string, emojis []string, i bool) (err error) {
-
+// TrackMood Creates a record in the database for the fields related to the mood command.
+func TrackMood(quality int, stress int, tags []string, emojis []string, isImportant bool) error {
 	db.InitDatabase()
 	database := db.GetDatabase()
 
 	e := parse.Emojis(emojis)
 	t := parse.Tags(tags)
-
 	r := &schema.Record{
 		Type: "mood",
-		Quality: q,
+		Quality: quality,
+		Stress: stress,
 		Tags: t,
 		Emojis: e,
-		Important: i,
+		Important: isImportant,
 	}
-
 	database.Create(&r)
-
-	fmt.Printf("You rated your mood a %d.\n", q)
-	fmt.Println("Record ID:", r.ID)
-	fmt.Println("Tags:", r.Tags)
-	fmt.Println("Emojis", r.Emojis)
-	isImportant(i)
-
-	return err
+	return nil
 }
