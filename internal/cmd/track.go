@@ -7,7 +7,7 @@ package cmd
 	--important
 */
 import (
-	"github.com/iods/go-eddie/internal/cli"
+	"github.com/iods/go-eddie/internal/eddie"
 	"github.com/spf13/cobra"
 )
 
@@ -29,28 +29,29 @@ your health. so here are some ways you can use him to the fullest:
 		d, _ := cmd.Flags().GetInt("duration")	// used with length (length may be used by different scopes in future)
 		q, _ := cmd.Flags().GetInt("quality")		// used as a rating system, most often w/ duration
 		l, _ := cmd.Flags().GetString("location") // can be used with many, but is specific to seizure tracking (reports)
+		s, _ := cmd.Flags().GetInt("stress")		// stress, used to graph and link with mood (high stress != good mood)
 
 		tags, _ := cmd.Flags().GetStringSlice("tags")
 		emojis, _ := cmd.Flags().GetStringSlice("emojis")
 
 		switch args[0] {
 		case "sleep":
-			err := cli.TrackSleep(t, d, q, tags, i)
+			err := eddie.TrackSleep(t, d, q, tags, i)
 			if err != nil {
 				panic(err)
 			}
 		case "weight":
-			err := cli.TrackWeight(args[1], i)
+			err := eddie.TrackWeight(args[1], i)
 			if err != nil {
 				panic(err)
 			}
 		case "mood":
-			err := cli.TrackMood(q, tags, emojis, i)
+			err := eddie.TrackMood(q, s, tags, emojis, i)
 			if err != nil {
 				panic(err)
 			}
 		case "seizure":
-			err := cli.TrackSeizure(t, tags, l, i)
+			err := eddie.TrackSeizure(t, tags, l, i)
 			if err != nil {
 				panic(err)
 			}
@@ -65,6 +66,7 @@ func init() {
 	trackCmd.Flags().BoolP("important", "i", false, "If a record should be tagged important or not.")
 	trackCmd.Flags().IntP("duration", "d", 0, "The time the event or activity lasted.")
 	trackCmd.Flags().IntP("quality", "q", 0, "The quality of the time spent on the activity or event.")
+	trackCmd.Flags().IntP("stress", "s", 0, "The level of stress, from 1-10, experienced during the event.")
 	trackCmd.Flags().StringP("location", "l", "none", "Location of activity or event.")
 	trackCmd.Flags().StringSlice("emojis", []string{}, "Emojis to include in your year of pixels.")
 	trackCmd.Flags().StringSlice("tags", []string{}, "Tags to include about the activity or event.")
