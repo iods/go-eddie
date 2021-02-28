@@ -1,36 +1,31 @@
-package cli
+package eddie
 
 import (
-	"fmt"
 	"time"
 
 	"github.com/iods/go-eddie/internal/db"
 	"github.com/iods/go-eddie/internal/db/schema"
-	helper "github.com/iods/go-eddie/internal/helpers/time"
+	time2 "github.com/iods/go-eddie/internal/helpers/time"
 	"github.com/iods/go-eddie/internal/util/parse"
 )
 
-func TrackSleep(s string, l int, q int, tags []string, b bool) error {
+// TrackSleep Structures and creates a record in the database for the `track sleep` command.
+func TrackSleep(s string, length int, quality int, tags []string, isImportant bool) error {
 	db.InitDatabase()
 	database := db.GetDatabase()
 
-
-	to := helper.UpdateTime(s)
-	from := to.Add(time.Duration(-l) * time.Hour)
+	to := time2.UpdateTime(s)
+	from := to.Add(time.Duration(-length) * time.Hour)
 	t := parse.Tags(tags)
 	r := &schema.Record{
 		Type: "sleep",
 		From: from,
 		To: to,
-		Length: l,
-		Quality: q,
+		Length: length,
+		Quality: quality,
 		Tags: t,
-		Important: b,
+		Important: isImportant,
 	}
-
 	database.Create(&r)
-	fmt.Println("Record ID:", r.ID)
-	fmt.Println("Record Length", r.Length)
-
 	return nil
 }
