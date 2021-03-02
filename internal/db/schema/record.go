@@ -19,7 +19,7 @@ type Record struct {
 	Tags      []Tag     `gorm:"many2many:record_tags;" json:"tags"`
 	To        time.Time `json:"to"`
 	Time	  time.Time `json:"time"`
-	Total     float64   `json:"total" fake:"{number:180,200}"`
+	Total     float64   `json:"total" fake:"{float64range:180,201}"`
 	Type      string    `json:"type"`
 }
 

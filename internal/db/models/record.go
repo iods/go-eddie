@@ -23,7 +23,7 @@ func (r RecordModel) GetRecords() ([]schema.Record, error) {
 	db.InitDatabase()
 	database := db.GetDatabase()
 
-	database.Debug().Find(&results)
+	database.Find(&results)
 	return results, nil
 }
 
@@ -34,7 +34,7 @@ func (r RecordModel) GetRecordsBetween(recordType string, flag string, min float
 	database := db.GetDatabase()
 
 	query := fmt.Sprintf("%s BETWEEN %f AND %f", flag, min, max)
-	database.Debug().Where("type = ?", recordType).Where(query).Find(&results)
+	database.Where("type = ?", recordType).Where(query).Find(&results)
 	return results, nil
 }
 
@@ -44,23 +44,23 @@ func (r RecordModel) GetRecordsOfType(recordType string) ([]schema.Record, error
 	db.InitDatabase()
 	database := db.GetDatabase()
 
-	database.Debug().Where("type = ?", recordType).Find(&results)
+	database.Where("type = ?", recordType).Find(&results)
 	return results, nil
 }
 
 
 // GetRecordOfType Returns a single record (first or last created_at) of the type specified.
-func (r RecordModel) GetRecordOfType(recordType string, desc bool) (schema.Record, error) {
+func (r RecordModel) GetRecordOfType(recordType string, asc bool) (schema.Record, error) {
 	db.InitDatabase()
 	database := db.GetDatabase()
 
 	var value string
-	if desc == false {
-		value = "created_at asc"
+	if asc == false {
+		value = "created_at desc"
 	} else {
 		value = "created_at"
 	}
-	database.Debug().Where("type = ?", recordType).Order(value).First(&result)
+	database.Where("type = ?", recordType).Order(value).First(&result)
 	return result, nil
 }
 
@@ -71,7 +71,7 @@ func (r RecordModel) GetRecordsByDate(d string, recordType string) ([]schema.Rec
 	database := db.GetDatabase()
 
 	query, _ := time.Parse(format, d)
-	database.Debug().Where("created_at = ? AND type = ?", query, recordType).Find(&results)
+	database.Where("created_at = ? AND type = ?", query, recordType).Find(&results)
 	return results, nil
 }
 
@@ -84,7 +84,7 @@ func (r RecordModel) GetRecordsByDateRange(from string, to string, recordType st
 	f, err := time.Parse(format, from)
 	t, err := time.Parse(format, to)
 	errors.Handle("issue", err)
-	database.Debug().Where("created_at BETWEEN ? AND ?", f, t).Where("type = ?", recordType).Find(&results)
+	database.Where("created_at BETWEEN ? AND ?", f, t).Where("type = ?", recordType).Find(&results)
 	return results, nil
 }
 
@@ -94,7 +94,7 @@ func (r RecordModel) GetRecordsStartingWith(keyword string, flag string) ([]sche
 	db.InitDatabase()
 	database := db.GetDatabase()
 
-	database.Debug().Where(flag + " LIKE ?", keyword + "%").Find(&results)
+	database.Where(flag + " LIKE ?", keyword + "%").Find(&results)
 	return results, nil
 }
 
@@ -104,7 +104,7 @@ func (r RecordModel) GetRecordsContaining(keyword string, flag string) ([]schema
 	db.InitDatabase()
 	database := db.GetDatabase()
 
-	database.Debug().Where(flag + " LIKE ?", "%" + keyword + "%").Find(&results)
+	database.Where(flag + " LIKE ?", "%" + keyword + "%").Find(&results)
 	return results, nil
 }
 
@@ -114,7 +114,7 @@ func (r RecordModel) GetRecordsEndingWith(keyword string, flag string) ([]schema
 	db.InitDatabase()
 	database := db.GetDatabase()
 
-	database.Debug().Where(flag + " LIKE ?", "%" + keyword).Find(&results)
+	database.Where(flag + " LIKE ?", "%" + keyword).Find(&results)
 	return results, nil
 }
 
@@ -124,6 +124,6 @@ func (r RecordModel) GetRecordsByImportance(recordType string) ([]schema.Record,
 	db.InitDatabase()
 	database := db.GetDatabase()
 
-	database.Debug().Find(&results, "type = ? AND important = true", recordType)
+	database.Find(&results, "type = ? AND important = true", recordType)
 	return results, nil
 }
