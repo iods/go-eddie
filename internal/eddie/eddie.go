@@ -42,8 +42,21 @@ func (e Eddie) FetchLastWeight() (schema.Record, error) {
 	return r, nil
 }
 
+func (e Eddie) FetchAllWeightBetween(from string, to string) ([]schema.Record, error) {
+	r, err := model.GetRecordsByDateRange(from, to, "weight")
+	errors.Handle("eddie could not fetch those records between that range of dates", err)
+	return r, nil
+}
+
 func (e Eddie) FetchAllBetween() ([]schema.Record, error) {
 	r, err := model.GetRecordsBetween("sleep", "quality", 3, 5)
 	errors.Handle("eddie couldn't get that record you are looking for.", err)
 	return r, nil
+}
+
+func (e Eddie) FetchWeightCount() (int, error) {
+	r, err := model.GetRecordsOfType("weight")
+	errors.Handle("handle this error at some point", err)
+
+	return len(r), nil
 }

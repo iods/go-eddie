@@ -1,6 +1,7 @@
 package eddie
 
 import (
+	"fmt"
 	"log"
 	"time"
 
@@ -8,6 +9,7 @@ import (
 	"github.com/gizak/termui/v3/widgets"
 )
 
+var weight Weight
 
 func (e Eddie) ReportWeight() {
 	if err := ui.Init(); err != nil {
@@ -72,19 +74,83 @@ func clockParagraph() *widgets.Paragraph {
 }
 
 func trendTable() *widgets.Table {
+
+	sevenAvg, _ := weight.FindAverages(7, false)
+	thirtyAvg, _ := weight.FindAverages(1, false)
+	sixtyAvg, _ := weight.FindAverages(2, false)
+	ninetyAvg, _ := weight.FindAverages(3, false)
+	sixAvg, _ := weight.FindAverages(6, false)
+	total, _ := weight.FindAverages(0, false)
+
+	average := []string{
+		"[Average](fg:magenta,mod:bold)",
+		fmt.Sprintf(" %0.2f", sevenAvg),
+		fmt.Sprintf(" %0.2f", thirtyAvg),
+		fmt.Sprintf(" %0.2f", sixtyAvg),
+		fmt.Sprintf(" %0.2f", ninetyAvg),
+		fmt.Sprintf(" %0.2f", sixAvg),
+		fmt.Sprintf(" %0.2f", total),
+	}
+
+	sevenMin, sevenMax := weight.FindMinMax(7, false)
+	thirtyMin, thirtyMax := weight.FindMinMax(1, false)
+	sixtyMin, sixtyMax := weight.FindMinMax(2, false)
+	ninetyMin, ninetyMax := weight.FindMinMax(3, false)
+	sixMin, sixMax := weight.FindMinMax(6, false)
+	totalMin, totalMax := weight.FindMinMax(0, false)
+
+	maximum := []string{
+		"[Maximum](fg:magenta,mod:bold)",
+		fmt.Sprintf(" %0.2f", sevenMax.Total),
+		fmt.Sprintf(" %0.2f", thirtyMax.Total),
+		fmt.Sprintf(" %0.2f", sixtyMax.Total),
+		fmt.Sprintf(" %0.2f", ninetyMax.Total),
+		fmt.Sprintf(" %0.2f", sixMax.Total),
+		fmt.Sprintf(" %0.2f", totalMax.Total),
+	}
+
+	minimum := []string{
+		"[Minimum](fg:magenta,mod:bold)",
+		fmt.Sprintf(" %0.2f", sevenMin.Total),
+		fmt.Sprintf(" %0.2f", thirtyMin.Total),
+		fmt.Sprintf(" %0.2f", sixtyMin.Total),
+		fmt.Sprintf(" %0.2f", ninetyMin.Total),
+		fmt.Sprintf(" %0.2f", sixMin.Total),
+		fmt.Sprintf(" %0.2f", totalMin.Total),
+	}
+
 	trends := widgets.NewTable()
 	trends.Border = false
 	trends.TextStyle = ui.NewStyle(ui.ColorWhite)
+
+	p7 := weight.FindPercentage(sevenMin.Total)
+	pTotal := weight.FindPercentage(totalMin.Total)
+
+	loss := []string{
+		"[Loss %](fg:cyan,mod:bold)",
+		fmt.Sprintf(" %0.1f", p7) + "%",
+		fmt.Sprintf(" %0.1f", weight.FindPercentage(thirtyMin.Total)) + "%",
+		fmt.Sprintf(" %0.1f", weight.FindPercentage(sixtyMin.Total)) + "%",
+		fmt.Sprintf(" %0.1f", weight.FindPercentage(ninetyMin.Total)) + "%",
+		fmt.Sprintf(" %0.1f", weight.FindPercentage(sixMin.Total)) + "%",
+		fmt.Sprintf(" %0.1f", pTotal) + "%",
+	}
+
+	gain := []string{
+		"[Gain %](fg:cyan,mod:bold)",
+		fmt.Sprintf(" %0.1f", weight.FindPercentage(sevenMax.Total)) + "%",
+		fmt.Sprintf(" %0.1f", weight.FindPercentage(thirtyMax.Total)) + "%",
+		fmt.Sprintf(" %0.1f", weight.FindPercentage(sixtyMax.Total)) + "%",
+		fmt.Sprintf(" %0.1f", weight.FindPercentage(ninetyMax.Total)) + "%",
+		fmt.Sprintf(" %0.1f", weight.FindPercentage(sixMax.Total)) + "%",
+		fmt.Sprintf(" %0.1f", weight.FindPercentage(totalMax.Total)) + "%",
+	}
 
 	trends.Rows = [][]string{
 		{
 			"", " 1 Week", " 30 Days", " 60 Days", " 90 Days", " 6 Months", " Total",
 		},
-		{"[Average](fg:magenta,mod:bold)", "188", "187", "189", "188", "190", "188"},
-		{"[Maximum](fg:magenta,mod:bold)", "188", "[187](fg:clear,bg:red,mod:bold)", "189", "188", "190", "188"},
-		{"[Minimum](fg:magenta,mod:bold)", "188", "187", "189", "188", "190", "188"},
-		{"[Loss %](fg:cyan,mod:bold)", "0.0", "1.2", "0.9", "1.1", "1.4", "[1.3](fg:clear,bg:green,mod:bold)"},
-		{"[Gain %](fg:cyan,mod:bold)", "0.0", "1.2", "0.9", "1.1", "1.4", "1.3"},
+		average, maximum, minimum, loss, gain,
 	}
 	trends.RowSeparator = true
 	trends.RowStyles[0] = ui.NewStyle(ui.ColorWhite, ui.ColorBlack, ui.ModifierBold)
@@ -96,9 +162,21 @@ func trendTable() *widgets.Table {
 }
 
 func statOne() *widgets.Paragraph {
+	average, _ := weight.FindAverages(1, false)
+	avg := fmt.Sprintf("%0.0f", average)
+
+	a := "[" + avg + "](fg:red)"
+	b := "[" + avg + "](fg:green)"
+
 	text := widgets.NewParagraph()
-	text.Text = "eddie calculated your average weight for this month is around [188](fg:green).\n"
+
+	if average >= 188 {
+		text.Text =  "eddie calculated your average weight over the past month around " + a
+	} else {
+		text.Text =  "eddie calculated your average weight over the past month around " + b
+	}
 	text.Border = false
+	text.TextStyle = ui.NewStyle(ui.ColorCyan)
 	text.PaddingLeft = 3
 	text.PaddingTop = 1
 
@@ -106,9 +184,12 @@ func statOne() *widgets.Paragraph {
 }
 
 func statTwo() *widgets.Paragraph {
+	present := weight.FindCount()
+	count := fmt.Sprintf("%d", present)
+
 	text := widgets.NewParagraph()
 	text.Border = false
-	text.Text = "eddie tracked your weight [8x](fg:green) times this month [(+2)](fg:green).\n"
+	text.Text = "eddie tracked your weight a total of [" + count + "](fg:green) times this month"
 	text.PaddingLeft = 3
 	text.PaddingTop = 1
 
@@ -116,10 +197,21 @@ func statTwo() *widgets.Paragraph {
 }
 
 func statThree() *widgets.Paragraph {
+
+	total, _ := weight.FindAverages(0, false)
+	bmiTotal, _ := weight.FindBmi(total, 80)
+	bmi := fmt.Sprintf("%0.0f", bmiTotal)
+
 	text := widgets.NewParagraph()
-	text.Text = "eddie calculated your body/mass index for this month at [123](fg:red).\n"
+
+	if bmiTotal > 25 {
+		text.Text = "eddie calculated your BMI at [" + bmi + "](fg:red), which is considered [obese](fg:red)"
+	} else if bmiTotal < 25 && bmiTotal > 18.5 {
+		text.Text = "eddie calculated your BMI at [" + bmi + "](fg:green), which is considered [optimal](fg:green)"
+	} else {
+		text.Text = "eddie calculated your BMI at [" + bmi + "](fg:green), which is considered [underweight](fg:green)"
+	}
 	text.Border = false
-	text.TextStyle = ui.NewStyle(ui.ColorCyan)
 	text.PaddingLeft = 3
 	text.PaddingTop = 1
 
@@ -127,10 +219,20 @@ func statThree() *widgets.Paragraph {
 }
 
 func statFour() *widgets.Paragraph {
+
+	total, _ := weight.FindAverages(3, false)
+	percentage := weight.FindPercentage(total)
+	percent := fmt.Sprintf("%0.1f", percentage)
+
+
 	text := widgets.NewParagraph()
-	text.Text = "eddie sees a [2%](fg:red)\nincrease in your\nweight in 60 days.\n"
+
+	if total > 188 {
+		text.Text = "eddie noticed a [" + percent + "%](fg:green)\ndecrease in your\nweight over 90 days"
+	} else {
+		text.Text = "eddie noticed a [" + percent + "%](fg:red)\nincrease in your\nweight over 90 days"
+	}
 	text.Border = false
-	text.TextStyle = ui.NewStyle(ui.ColorCyan)
 	text.PaddingLeft = 3
 	text.PaddingTop = 1
 
