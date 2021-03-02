@@ -1,5 +1,4 @@
-// command Creates a "controller" like boilerplate for various functionality and access to models across the application
-package cli
+package eddie
 
 import (
 	"github.com/iods/go-eddie/internal/db/models"
@@ -7,7 +6,9 @@ import (
 	"github.com/iods/go-eddie/internal/errors"
 )
 
-type Eddie struct {}
+type Eddie struct {
+	errors []string
+}
 
 var (
 	model 	models.RecordModel
@@ -38,5 +39,11 @@ func (e Eddie) FetchFirstWeight() (schema.Record, error) {
 func (e Eddie) FetchLastWeight() (schema.Record, error) {
 	r, err := model.GetRecordOfType("weight", false)
 	errors.Handle("eddie couldn't fetch that record you were looking for", err)
+	return r, nil
+}
+
+func (e Eddie) FetchAllBetween() ([]schema.Record, error) {
+	r, err := model.GetRecordsBetween("sleep", "quality", 3, 5)
+	errors.Handle("eddie couldn't get that record you are looking for.", err)
 	return r, nil
 }

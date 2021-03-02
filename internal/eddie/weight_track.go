@@ -8,8 +8,6 @@ import (
 	"github.com/iods/go-eddie/internal/db/schema"
 )
 
-type Weight struct {}
-
 var (
 	//format = "2006-01-02"
 )
