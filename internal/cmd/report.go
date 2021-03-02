@@ -1,14 +1,11 @@
 package cmd
 
 import (
-	"fmt"
-	"github.com/iods/go-eddie/internal/cli/template"
-	"github.com/iods/go-eddie/internal/errors"
-
-	"github.com/iods/go-eddie/internal/cli"
-	"github.com/iods/go-eddie/internal/db/schema"
+	"github.com/iods/go-eddie/internal/eddie"
 	"github.com/spf13/cobra"
 )
+
+var demo, mood, seizure, sleep, weight eddie.Eddie
 
 var reportCmd = &cobra.Command{
 	Use: "report [behavior]",
@@ -24,34 +21,15 @@ cool looking data about what you have been up to.
 
 		switch args[0] {
 		case "demo":
-
-			one, err := cli.GetWeightAverage(1, false)
-			errors.Handle("handle this", err)
-			fmt.Println(one)
-			// return all records
-			// return all records by a date
-			// return all records by a date range
-			// return all records by a date range custom
-			// return all records
+			// demo.ReportDemo()
 		case "mood":
-			var yearData []float64
-			var yearLabel []string
-
-			for i := 1; i < 12; i++ {
-				label, avg, _ := cli.GetWeightAverageByMonth(i)
-				yearData = append(yearData, avg)
-				yearLabel = append(yearLabel, label)
-				fmt.Println(label, avg)
-			}
-
+			// mood.ReportMood()
 		case "seizure":
-
+			// seizure.ReportSeizure()
 		case "sleep":
-			template.ReportDashboard()
+			// sleep.ReportSleep()
 		case "weight":
-
-			// Average (1 month)
-			//FindAverageMonthly(-9)
+			weight.ReportWeight()
 		}
 	},
 }
@@ -59,55 +37,3 @@ cool looking data about what you have been up to.
 func init() {
 	rootCmd.AddCommand(reportCmd)
 }
-
-func getAverage(n []float64) float64 {
-	total := 0.0
-
-	for _, v := range n {
-		total += v
-	}
-
-	return total / float64(len(n))
-}
-
-func getMinMax(r []schema.Record) (min schema.Record, max schema.Record) {
-	min = r[0]
-	max = r[0]
-
-	for _, result := range r {
-		if result.Total > max.Total {
-			max = result
-		}
-		if result.Total < min.Total {
-			min = result
-		}
-	}
-
-	return min, max
-}
-//
-//func FindAverageMonthly(monthRange int) {
-//	var model models.WeightModel
-//
-//	now := time.Now()
-//	date := now.String()
-//	date = now.Format("2006-01-02")
-//
-//	records, err := model.GetWeightRecordsByRangeCustom(date, monthRange)
-//	errors.Handle("handle this error message at some point.", err)
-//
-//	fmt.Println(records)
-//
-//	var total = 0.0
-//
-//	for _, record := range records {
-//		total += record.Total
-//	}
-//
-//	t := total / float64(len(records))
-//	fmt.Println(t)
-//}
-
-// get first record
-//
-

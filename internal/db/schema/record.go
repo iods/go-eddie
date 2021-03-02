@@ -1,7 +1,6 @@
 package schema
 
 import (
-	"fmt"
 	"gorm.io/gorm"
 	"time"
 )
@@ -11,7 +10,7 @@ type Record struct {
 
 	Length    int       `json:"length" fake:"{number:3,8}"`
 	Emojis	  []Emoji   `gorm:"many2many:record_emojis;" json:"emojis"`
-	Frequency int       `json:"frequency"`
+	Frequency int       `json:"frequency" fake:"{number:1,8}"`
 	From      time.Time `json:"from"`
 	Important bool      `json:"important" fake:"{bool}"`
 	Location  string    `json:"location" fake:"{randomstring:[office,couch,bedroom]}"`
@@ -25,17 +24,9 @@ type Record struct {
 }
 
 type Emoji struct {
-	Name string `gorm:"primary_key" json:"emoji_name" fake:"{emojitag}"`
+	Name string `gorm:"primary_key" json:"emoji_name" fake:"{randomstring:[joyful,happy,grateful,sad,anxious,bored,loving,loved,stressed,focused,frustrated,hopeful]}"`
 }
 
 type Tag struct {
 	Name string `gorm:"primary_key" json:"tag_name" fake:"{adjective}"`
-}
-
-func (record *Record) TableName() string {
-	return "record"
-}
-
-func (record Record) ToString() string {
-	return fmt.Sprintf("id: %v\ncreated_at: %v\ntype: %v", record.ID, record.CreatedAt, record.Type)
 }
