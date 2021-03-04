@@ -1,7 +1,7 @@
 Eddie CLI
 =========
 
-A CLI for tracking routines and behaviors, with a UI for rendering your results in real time.
+A CLI for tracking routines and behaviors, with a cli dashboard for rendering your results in real time.
 
 
 Description
@@ -11,59 +11,64 @@ I am in the command line a lot. I like data. I love Go right now. It feels right
 
 
 ```
-            __     __  __
- .-----..--|  |.--|  ||__|.-----.
- |  -__||  _  ||  _  ||  ||  -__|
- |_____||_____||_____||__||_____|
 
- Like velcro.
+  _______ ______  ______  _____ _______
+  |______ |     \ |     \   |   |______
+  |______ |_____/ |_____/ __|__ |______
+
+     the cli service dog 🐕 v0.1.0
 
 Usage:
   eddie [command]
 
 Available Commands:
-  ask         Ask eddie to remind you about tracking your routines daily, weekly, or monthly.
+  ask         Reminders for tracking activity
   help        Help about any command
-  report      Report on your behaviors in the command line or in a dashboard.
-  track       Track various routines and behaviors with some tags for filtering later.
+  report      Generate reports for an activity
+  track       Record and track patterns in sleep, mood, seizures, and weight.
 
 Flags:
   -h, --help   help for eddie
 
 Use "eddie [command] --help" for more information about a command.
+
 ```
-eddie track mood 7 -tags="this,that,then,bag,of,chips" -stress=6 -quality=3 -emoji="joyful,happy,grateful,sad,loving,anxious,bored,frustrated,stressed)
-https://github.com/golang/go/wiki/Modules#how-can-i-track-tool-dependencies-for-a-module
 
-### Ask
+### Getting Started
 
+Simply clone the repository, set up an alias for eddie like `alias eddie=$GOBIN/eddie`, and then run:
 ```sh
-$ eddie ask [behavior, symptom] -{d,w,m}
-
-$ eddie ask buddha // returns a motivational message from Buddha
+$ go install && eddie install
 ```
 
-### Track
+Development
+-----------
 
-Eddie tracks your sleep, mood, weight, and much more!
+### Weight
 
-### Report
+You have only one main option with this record, and that is the average value (in pounds) of your weight,
+taken over a 24 hr period. You are also given the `--important` flag for tagging it with significance.
 
-#### Weight
+You can track your weight using the following patterns:
+```sh
+$ eddie track weight 195
+$ eddie track weight 195 -i, --important
+```
 
-Dashboard for eddie currently:
+You will see the record created return its ID, but nothing more.
 
-<h3 align="center">
-    <img src="/assets/weight.png" height="300" />
-</h3>
+You can view progress and trends with:
+```sh
+$ eddie report weight
+```
 
 
 
-## Development
+#### Development
 
-### TermUI
+#### TermUI
 
-### GORM, GoFakeit (to fill db)
+#### GORM, GoFakeit (to fill db)
 
 
 Copyright
