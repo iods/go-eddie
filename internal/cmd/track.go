@@ -12,15 +12,15 @@ import (
 )
 
 var trackCmd = &cobra.Command{
-	Use: "track {event,activity}",
-	Short: "Record things like mood or sleep patterns.",
+	Use: "track [behavior]",
+	Short: "Record and track patterns in sleep, mood, seizures, and weight.",
 	Long: `
 From sleep to mood to symptoms, eddie is like velcro.
 
 Eddie will track your life, sniffing out everything about 
 your health. so here are some ways you can use him to the fullest:
-  1. eddie sniff [activity] {flags}
-  2. eddie sniff [activity] -{emoji, tags, time, duration, stress, quality, location, severity, important}
+  1. eddie track [command] {flags}
+  2. eddie track [behavior] -{emoji, tags, time, duration, stress, quality, location, severity, important}
 `,
 	Run: func(cmd *cobra.Command, args []string) {
 

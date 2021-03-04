@@ -8,7 +8,7 @@ import (
 var demo, mood, seizure, sleep, weight eddie.Eddie
 
 var reportCmd = &cobra.Command{
-	Use: "report [behavior]",
+	Use: "report [activity]",
 	Short: "Generate reports for an activity",
 	Long: `
 Eddie will get a report to you.
@@ -20,8 +20,6 @@ cool looking data about what you have been up to.
 	Run: func(cmd *cobra.Command, args []string) {
 
 		switch args[0] {
-		case "demo":
-			// demo.ReportDemo()
 		case "mood":
 			// mood.ReportMood()
 		case "seizure":
