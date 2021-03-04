@@ -4,15 +4,16 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/iods/go-eddie/internal/db"
-	"github.com/iods/go-eddie/internal/util/project"
+	util "github.com/iods/go-eddie/internal/util/project"
 	"github.com/spf13/cobra"
 )
 
-var rootCmd = &cobra.Command{
-	Use: "eddie",
-	Short: "A cli tool for life.",
-	Long:
+var (
+
+	rootCmd = &cobra.Command{
+		Use: "eddie",
+		Short: "the cli service dog.",
+		Long:
 `
 
   _______ ______  ______  _____ _______
@@ -23,13 +24,15 @@ var rootCmd = &cobra.Command{
 
 
 `,
-}
+	}
+	setup = &util.Project{}
+)
 
 func Execute() {
-	// @TODO confirm this is necessary every execution
-	if project.Check() == false {
-		project.Install()
-		db.StubDatabase()
+
+	if setup.CheckDirectory() == false {
+		setup.InstallDirectory()
+		return
 	}
 
 	if err := rootCmd.Execute(); err != nil {
