@@ -5,7 +5,7 @@ import (
 	"path/filepath"
 
 	"github.com/iods/go-eddie/internal/db/schema"
-	"github.com/iods/go-eddie/internal/util/project"
+	util "github.com/iods/go-eddie/internal/util/project"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 )
@@ -14,7 +14,7 @@ var DB *gorm.DB
 
 func InitDatabase() {
 	db, err := gorm.Open(sqlite.Open(
-		filepath.Join(project.Getdir(), "records.db", // users home path
+		filepath.Join(util.GetProjectHome(), "records.db", // users home path
 	)), &gorm.Config{
 		// include any configs?
 	})
