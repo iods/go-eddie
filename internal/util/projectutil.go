@@ -49,11 +49,11 @@ func loadPrompt() bool {
 	}
 
 	templates := &promptui.PromptTemplates{
-		Prompt:  "{{  . }}\n\n",
+
+		Prompt:  "{{  .  }}",
 		Valid:   "{{  . | bold | green }} ",
 		Invalid: "{{  . | bold | red }} ",
 		Success: "{{  . | bold | green }} ",
-
 	}
 
 	fmt.Printf(`
@@ -144,7 +144,7 @@ func GetProjectHome() string {
 }
 
 // CheckDirectory Returns a boolean for methods to confirm the existence of a project path.
-func (p Project) CheckDirectory() bool {
+func CheckDirectory() bool {
 	proj := loadProject()
 	if s, err := os.Stat(proj.Directory); err == nil && s.IsDir() {
 		return true
@@ -152,8 +152,8 @@ func (p Project) CheckDirectory() bool {
 	return false
 }
 
-// InstallDirectory Installs the application and returns a boolean for confirming the success or failure of the install.
-func (p Project) InstallDirectory() bool {
+// Install Installs the application and returns a boolean for confirming the success or failure of the install.
+func Install() bool {
 	proj := loadProject()
 	loadConfig(proj.Directory)
 	stub := loadPrompt()
