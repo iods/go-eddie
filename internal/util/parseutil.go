@@ -1,11 +1,11 @@
-package parse
+package util
 
 import (
 	"github.com/iods/go-eddie/internal/db/schema"
 )
 
 // Emojis Returns a slice of emojis for construction of a record.
-func Emojis(e []string) []schema.Emoji {
+func ParseEmojis(e []string) []schema.Emoji {
 	var emojis []schema.Emoji
 	l := len(e)
 	for i := 0; i < l; i++ {
@@ -16,7 +16,7 @@ func Emojis(e []string) []schema.Emoji {
 }
 
 // Returns a slice of Tags for construction of a record.
-func Tags(t []string) []schema.Tag {
+func ParseTags(t []string) []schema.Tag {
 	var tags []schema.Tag
 	l := len(t)
 	for i := 0; i < l; i++ {

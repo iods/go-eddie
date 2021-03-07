@@ -1,4 +1,4 @@
-package copy
+package util
 
 // Float32 Returns the pointer of a float32 value.
 func Float32(v float32) *float32 {

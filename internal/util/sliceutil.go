@@ -1,4 +1,4 @@
-package slice
+package util
 
 // hasIndex Returns true if the index exists for the passed slice.
 func hasIndex(slice []interface{}, index int) bool {

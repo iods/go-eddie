@@ -5,8 +5,7 @@ import (
 
 	"github.com/iods/go-eddie/internal/db"
 	"github.com/iods/go-eddie/internal/db/schema"
-	time2 "github.com/iods/go-eddie/internal/helpers/time"
-	"github.com/iods/go-eddie/internal/util/parse"
+	"github.com/iods/go-eddie/internal/util"
 )
 
 // TrackSleep Structures and creates a record in the database for the `track sleep` command.
@@ -14,9 +13,9 @@ func TrackSleep(s string, length int, quality int, tags []string, isImportant bo
 	db.InitDatabase()
 	database := db.GetDatabase()
 
-	to := time2.UpdateTime(s)
+	to := util.UpdateTime(s)
 	from := to.Add(time.Duration(-length) * time.Hour)
-	t := parse.Tags(tags)
+	t := util.ParseTags(tags)
 	r := &schema.Record{
 		Type: "sleep",
 		From: from,

@@ -4,11 +4,11 @@ go 1.15
 
 require (
 	github.com/brianvoe/gofakeit/v6 v6.2.0
-	github.com/gen2brain/beeep v0.0.0-20200526185328-e9c15c258e28
+	github.com/gen2brain/beeep v0.0.0-20200526185328-e9c15c258e28 // indirect
 	github.com/gizak/termui v3.1.0+incompatible // indirect
 	github.com/gizak/termui/v3 v3.1.0
 	github.com/gopherjs/gopherjs v0.0.0-20210202160940-bed99a852dfe // indirect
-	github.com/joho/godotenv v1.3.0
+	github.com/joho/godotenv v1.3.0 // indirect
 	github.com/manifoldco/promptui v0.8.0
 	github.com/mattn/go-runewidth v0.0.10 // indirect
 	github.com/mitchellh/go-wordwrap v1.0.1 // indirect
