@@ -156,7 +156,7 @@ func stub(f func() *schema.Record, c int) {
 	}
 }
 
-func StubDatabase() {
+func Stub() {
 	stub(stubMood, 330)
 	stub(stubSleep, 365)
 	stub(stubWeight, 300)

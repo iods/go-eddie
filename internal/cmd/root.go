@@ -2,9 +2,10 @@ package cmd
 
 import (
 	"fmt"
+	"github.com/iods/go-eddie/internal/db"
 	"os"
 
-	util "github.com/iods/go-eddie/internal/util/project"
+	"github.com/iods/go-eddie/internal/util"
 	"github.com/spf13/cobra"
 )
 
@@ -25,16 +26,15 @@ var (
 
 `,
 	}
-	setup = &util.Project{}
 )
 
 func Execute() {
-
-	if setup.CheckDirectory() == false {
-		setup.InstallDirectory()
+	if util.CheckDirectory() == false {
+		if util.Install() != false {
+			db.Stub()
+		}
 		return
 	}
-
 	if err := rootCmd.Execute(); err != nil {
 		fmt.Println(err)
 		os.Exit(1)

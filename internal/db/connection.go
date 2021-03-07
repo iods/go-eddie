@@ -6,7 +6,7 @@ import (
 	"path/filepath"
 
 	"github.com/iods/go-eddie/internal/db/schema"
-	util "github.com/iods/go-eddie/internal/util/project"
+	"github.com/iods/go-eddie/internal/util"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 )
