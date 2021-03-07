@@ -1,11 +1,12 @@
 package eddie
 
 import (
+	util "github.com/iods/go-eddie/internal/util/project"
 	"time"
 
 	"github.com/iods/go-eddie/internal/db"
 	"github.com/iods/go-eddie/internal/db/schema"
-	time2 "github.com/iods/go-eddie/internal/helpers/time"
+
 	"github.com/iods/go-eddie/internal/util/parse"
 )
 
@@ -14,7 +15,7 @@ func TrackSleep(s string, length int, quality int, tags []string, isImportant bo
 	db.InitDatabase()
 	database := db.GetDatabase()
 
-	to := time2.UpdateTime(s)
+	to := util.UpdateTime(s)
 	from := to.Add(time.Duration(-length) * time.Hour)
 	t := parse.Tags(tags)
 	r := &schema.Record{
