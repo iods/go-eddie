@@ -1,9 +1,10 @@
 package eddie
 
 import (
+	"time"
+
 	"github.com/iods/go-eddie/internal/db/schema"
 	"github.com/iods/go-eddie/internal/errors"
-	"time"
 )
 
 type Weight struct {}

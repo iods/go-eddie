@@ -57,6 +57,5 @@ func (e Eddie) FetchAllBetween() ([]schema.Record, error) {
 func (e Eddie) FetchWeightCount() (int, error) {
 	r, err := model.GetRecordsOfType("weight")
 	errors.Handle("handle this error at some point", err)
-
 	return len(r), nil
 }

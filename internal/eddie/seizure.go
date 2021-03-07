@@ -3,8 +3,7 @@ package eddie
 import (
 	"github.com/iods/go-eddie/internal/db"
 	"github.com/iods/go-eddie/internal/db/schema"
-	"github.com/iods/go-eddie/internal/util/parse"
-	util "github.com/iods/go-eddie/internal/util/project"
+	"github.com/iods/go-eddie/internal/util"
 )
 
 // TrackSeizure Structures and creates a record for tracking a seizure.
@@ -12,7 +11,7 @@ func TrackSeizure(s string, tags []string, l string, isImportant bool) (err erro
 	db.InitDatabase()
 	database := db.GetDatabase()
 
-	t := parse.Tags(tags)
+	t := util.ParseTags(tags)
 	r := &schema.Record{
 		Type: "seizure",
 		Time: util.UpdateTime(s),
