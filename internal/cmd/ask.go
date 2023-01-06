@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"github.com/iods/go-eddie/internal/api"
 	"github.com/spf13/cobra"
 )
 
@@ -13,7 +14,10 @@ Eddie will set you a reminder for compiling this information.
 Among other things xD.
 `,
 	Run: func(cmd *cobra.Command, args []string) {
-		// need to transfer buddha to here
+		switch args[0] {
+		case "buddha":
+			api.AskBuddha()
+		}
 	},
 }
 
