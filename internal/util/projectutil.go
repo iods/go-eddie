@@ -122,6 +122,13 @@ func loadRecords(dir string, stub bool) {
 	}
 }
 
+func loadFortunes() {
+	p := loadProject()
+	home := fmt.Sprintf("%s", p.Directory)
+	err := CopyFile("../../scripts/fortunes.json", home)
+	errors.Handle("handle this error", err)
+}
+
 // writeConfig Writes the prompt answers to a configuration file for setting application defaults.
 func writeConfig(config string, record string) {
 	path := loadProject()
@@ -158,6 +165,7 @@ func Install() bool {
 	loadConfig(proj.Directory)
 	stub := loadPrompt()
 	loadRecords(proj.Directory, stub)
+	loadFortunes()
 	if stub == false {
 		return false
 	}

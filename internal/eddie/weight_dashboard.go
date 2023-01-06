@@ -221,6 +221,10 @@ func statThree() *widgets.Paragraph {
 func statFour() *widgets.Paragraph {
 
 	total, _ := weight.FindAverages(3, false)
+	if total == 0 {
+
+	}
+
 	percentage := weight.FindPercentage(total)
 	percent := fmt.Sprintf("%0.1f", percentage)
 
