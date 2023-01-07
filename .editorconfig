@@ -1,20 +1,96 @@
-
 root = true
 
 [*]
 charset = utf-8
 end_of_line = lf
+# end_of_line = native
 indent_size = 4
 indent_style = space
-insert_final_newline = false
-max_line_length = 120
+insert_final_newline = true
+max_line_length = 100
+ij_visual_guides = 80
 tab_width = 4
+trim_trailing_whitespace = true
 
-[{*.go,*.go2}]
+# [composer.json]
+# indent_style = tab
+# indent_size = 4
+
+[*.{bash,sh,zsh}]
+indent_style = tab
+indent_size = 2
+# end_of_line = lf
+# shell_variant = bash
+switch_case_indent = true
+space_redirects    = true
+binary_next_line   = true
+function_next_line = true
+
+[{Dockerfile,Dockerfile.template.erb,Dockerfile-alpine}]
+indent_style = space
+indent_size = 4
+
+[*.env]
+insert_final_newline = false
+trim_trailing_whitespace = false
+
+# Go
+# https://golang.org/cmd/gofmt/
+[{*.go,*.go2,go.mod}]
 indent_style = tab
 
+# JavaScript, JSON, JSX, JavaScript Modules, TypeScript
+# https://github.com/feross/standard
+# [*.{cjs,js,json,jsx,mjs,ts,tsx}]
+# indent_size = 2
+# indent_style = space
+
+# JSON and Web files
 [{*.har,*.jsb2,*.jsb3,*.json,.babelrc,.eslintrc,.stylelintrc,bowerrc,jest.config}]
 indent_size = 2
 
+# JSON Files
+# [*.{json,json5,webmanifest}]
+# indent_size = 2
+
+# Web Files
+# [*.{htm,html,js,jsm,ts,tsx,css,sass,scss,less,pcss,svg,vue}]
+# indent_size = 2
+
+[{Makefile,Caddyfile,*.Caddyfile,.gitconfig,.gitconfig.local}]
+indent_style = tab
+tab_width = 4
+
+[*.{md,markdown,txt}]
+indent_style = space
+indent_size = 4
+trim_trailing_whitespace = false
+
+# ignore node_modules
+#[/node_modules/**]
+#indent_style = unset
+#indent_size = unset
+#end_of_line = unset
+#charset = unset
+#trim_trailing_whitespace = unset
+#insert_final_newline = unset
+#max_line_length = unset
+
+# TOML
+# https://github.com/toml-lang/toml/tree/master/examples
+[*.toml]
+indent_size = 2
+indent_style = space
+
+[*.{xml,xml.dist,xsd}]
+max_line_length = off
+end_of_line = lf
+indent_style = space
+charset = utf-8
+trim_trailing_whitespace = true
+insert_final_newline = true
+indent_size = 2
+
+# YAML files
 [{*.yaml,*.yml}]
 indent_size = 2

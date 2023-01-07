@@ -1,20 +1,29 @@
 module github.com/iods/go-eddie
 
-go 1.15
+go 1.19
 
 require (
-	github.com/brianvoe/gofakeit/v6 v6.2.0
-	github.com/gen2brain/beeep v0.0.0-20200526185328-e9c15c258e28 // indirect
-	github.com/gizak/termui v3.1.0+incompatible // indirect
-	github.com/gizak/termui/v3 v3.1.0
-	github.com/gopherjs/gopherjs v0.0.0-20210202160940-bed99a852dfe // indirect
-	github.com/joho/godotenv v1.3.0 // indirect
-	github.com/manifoldco/promptui v0.8.0
-	github.com/mattn/go-runewidth v0.0.10 // indirect
-	github.com/mitchellh/go-wordwrap v1.0.1 // indirect
-	github.com/nsf/termbox-go v0.0.0-20210114135735-d04385b850e8 // indirect
+	github.com/mitchellh/go-homedir v1.1.0
 	github.com/spf13/cobra v1.1.1
-	golang.org/x/sys v0.0.0-20210124154548-22da62e12c0c // indirect
-	gorm.io/driver/sqlite v1.1.4
-	gorm.io/gorm v1.20.12
+	github.com/spf13/viper v1.7.0
+)
+
+require (
+	github.com/fsnotify/fsnotify v1.4.7 // indirect
+	github.com/gopherjs/gopherjs v0.0.0-20210202160940-bed99a852dfe // indirect
+	github.com/hashicorp/hcl v1.0.0 // indirect
+	github.com/inconshreveable/mousetrap v1.0.0 // indirect
+	github.com/magiconair/properties v1.8.1 // indirect
+	github.com/mitchellh/mapstructure v1.1.2 // indirect
+	github.com/pelletier/go-toml v1.2.0 // indirect
+	github.com/spf13/afero v1.1.2 // indirect
+	github.com/spf13/cast v1.3.0 // indirect
+	github.com/spf13/jwalterweatherman v1.0.0 // indirect
+	github.com/spf13/pflag v1.0.5 // indirect
+	github.com/stretchr/testify v1.6.1 // indirect
+	github.com/subosito/gotenv v1.2.0 // indirect
+	golang.org/x/sys v0.0.0-20220422013727-9388b58f7150 // indirect
+	golang.org/x/text v0.3.3 // indirect
+	gopkg.in/ini.v1 v1.51.0 // indirect
+	gopkg.in/yaml.v2 v2.2.8 // indirect
 )

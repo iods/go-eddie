@@ -1,7 +1,9 @@
 Eddie CLI
 =========
 
-A CLI for tracking routines and behaviors, with a cli dashboard for rendering your results in real time.
+A CLI for tracking and hacking routines and behaviors, data and information.
+
+> **WARNING:** This is a private package and is not currently maintained for public use.
 
 
 Description
@@ -23,8 +25,11 @@ Usage:
 
 Available Commands:
   ask         Reminders for tracking activity
+  fetch       Retrieve your timely dose of knowledge from different sources.
+  find        Search the various resources for keywords.
   help        Help about any command
   report      Generate reports for an activity
+  speak       Message people through different APIs
   track       Record and track patterns in sleep, mood, seizures, and weight.
 
 Flags:
@@ -36,42 +41,13 @@ Use "eddie [command] --help" for more information about a command.
 
 ### Getting Started
 
-Simply clone the repository, set up an alias for eddie like `alias eddie=$GOBIN/eddie`, and then run:
+Simply clone the repository, set up an alias for eddie and his aliases like `alias eddie=$GOBIN/eddie` `alias eddiectl=$GOBIN/eddiectl`, and then run:
 ```sh
-$ go install && eddie install
+$ go install && eddie install && eddiectl install
 ```
-
-Development
------------
-
-### Weight
-
-You have only one main option with this record, and that is the average value (in pounds) of your weight,
-taken over a 24 hr period. You are also given the `--important` flag for tagging it with significance.
-
-You can track your weight using the following patterns:
-```sh
-$ eddie track weight 195
-$ eddie track weight 195 -i, --important
-```
-
-You will see the record created return its ID, but nothing more.
-
-You can view progress and trends with:
-```sh
-$ eddie report weight
-```
-
-
-
-#### Development
-
-#### TermUI
-
-#### GORM, GoFakeit (to fill db)
 
 
 Copyright
 ---------
 
-Copyright (c) 2021, Rye Miller
+Copyright (c) 2022, Rye Miller
