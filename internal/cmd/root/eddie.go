@@ -12,6 +12,13 @@ import (
 	"github.com/spf13/cobra"
 )
 
+// variables injected during build
+var (
+	conf    string
+	verbose = ""
+	version = ""
+)
+
 // EddieRootCmd replaces the Execute() function for running the main cli.
 func EddieRootCmd() *cobra.Command {
 	cmd := cobra.Command{
