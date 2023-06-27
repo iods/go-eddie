@@ -1,4 +1,4 @@
-package project
+package find
 
 ///*
 //Standups: A Go application for trying harder.

@@ -1,8 +1,8 @@
-package root
+package fetch
 
 /*
    Eddie: A CLI service dog.
-   Copyright (c) 2022 Rye Miller
+   Copyright (c) 2023 Rye Miller
    https://ryemiller.io
 */
 
@@ -12,16 +12,9 @@ import (
 	"github.com/spf13/cobra"
 )
 
-// variables injected during build
-var (
-	conf    string
-	verbose = ""
-	version = ""
-)
-
 // EddieRootCmd replaces the Execute() function for running the main cli.
 func EddieRootCmd() *cobra.Command {
-	cmd := cobra.Command{
+	eddieCmd := cobra.Command{
 		Use:           "eddie",
 		Short:         "A CLI tool and service dog.",
 		SilenceErrors: true,
@@ -35,9 +28,11 @@ func EddieRootCmd() *cobra.Command {
 
 `,
 		Run: func(cmd *cobra.Command, args []string) {
+
 			fmt.Println("Hello Eddie CLI")
+
 		},
 	}
 
-	return &cmd
+	return &eddieCmd
 }
