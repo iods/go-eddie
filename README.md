@@ -50,4 +50,11 @@ $ go install && eddie install && eddiectl install
 Copyright
 ---------
 
-Copyright (c) 2022, Rye Miller
+Copyright (c) 2017-Present, Rye Miller
+1. a root command of `drkctl`
+2. sub-commands consisting of:
+    * `remind` for asking to remind me of something
+    * `fetch` for getting information from a resource
+    * `find` for searching through information by keyword
+    * `help` get help on commands
+    * `report` generate reports for tracked activities
